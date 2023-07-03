@@ -90,4 +90,15 @@ a {
   text-decoration: none;
 }
 
+header {
+  text-align: center;
+  padding: 20px 0;
+}
+
+#logo {
+  max-width: 129px; /* Adjust as needed */
+  height: auto;
+  border-radius: 50%;
+}
+
 /*# sourceMappingURL=main.css.map */
