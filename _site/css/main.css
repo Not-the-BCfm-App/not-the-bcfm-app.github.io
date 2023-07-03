@@ -17,6 +17,12 @@ h1 {
   text-shadow: 1px 1px 0 white;
 }
 
+h2 {
+  text-align: center;
+  color: #a8a8a8;
+  text-shadow: 1px 1px 0 white;
+}
+
 form {
   max-width: 600px;
   text-align: center;
@@ -78,6 +84,10 @@ form textarea {
 
 .cf:after {
   clear: both;
+}
+
+a {
+  text-decoration: none;
 }
 
 /*# sourceMappingURL=main.css.map */

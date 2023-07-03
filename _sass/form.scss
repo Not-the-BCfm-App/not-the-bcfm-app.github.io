@@ -19,6 +19,12 @@ h1 {
   text-shadow: 1px 1px 0 rgba(white, 1);
 }
 
+h2 {
+  text-align: center;
+  color: #a8a8a8;
+  text-shadow: 1px 1px 0 rgba(white, 1);
+}
+
 form {
   max-width: 600px;
   text-align: center;
@@ -83,4 +89,8 @@ form {
 
 .cf:after {
     clear: both;
+}
+
+a {
+  text-decoration: none;
 }
