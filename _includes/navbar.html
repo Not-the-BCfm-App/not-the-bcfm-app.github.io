@@ -1,0 +1,19 @@
+<nav class="navbar">
+    <a href="#" class="nav-toggle">Menu</a>
+    <ul class="nav-menu">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Connect</a></li>
+      <li><a href="#">Radio</a></li>
+    </ul>
+  </nav>
+
+  <script>
+
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
+
+navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('show');
+});
+
+  </script>

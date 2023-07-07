@@ -1,0 +1,193 @@
+@import url(https://fonts.googleapis.com/css?family=Merriweather);
+
+
+
+
+header {
+    self-align: start; /* Aligns the header itself to the start */
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 0; /* Remove padding */
+}
+
+  #logo {
+    max-width: 60px;  /* Adjust as needed */
+    height: auto;
+    border-radius: 50%;
+  }
+
+  
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Fill the full viewport height */
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+    background: #f0f0f0; /* Set a background color */
+    font-family: 'Merriweather', sans-serif;
+}
+
+
+.main-content {
+    width: 90%; /* Adjust this if needed */
+    max-width: 600px; /* Adjust this if needed */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns the logo to one side on larger screens */
+}
+
+
+
+
+/* h2 {
+    text-align: center;
+    color: #a8a8a8;
+    text-shadow: 1px 1px 0 rgba(white, 1);
+  } */
+  
+  /* p {
+    text-align: center;
+    color: #a8a8a8;
+    text-shadow: 1px 1px 0 rgba(white, 1);
+  } */
+
+.audio-card {
+    width: 90%; /* Take up 90% of the viewport width. Adjust this as needed. */
+    max-width: 600px; /* Set a maximum width for large screens */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(240, 185, 213, 0.096);
+}
+
+.card-content {
+    text-align: center;
+}
+
+.card-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.card-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+audio {
+    width: 100%;
+}
+
+
+
+@media screen and (max-width: 600px) {
+    header {
+        justify-content: center; /* Centers the logo on small screens */
+    }
+
+    .audio-card {
+        margin-top: 20px; /* Add some space between the logo and audio card on small screens */
+    }
+}
+
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(240, 185, 213, 0.096);
+    color: #333;
+    padding: 10px 0; /* Half the original height by reducing padding */
+    text-align: center;
+    z-index: 1000;
+    font-family: sans-serif; /* Default system font */
+}
+
+.cookie-accept {
+    background-color: #b8faf6d3; /* Pastel teal */
+    color: #6f4e37; /* Brown */
+    border: none;
+    padding: 5px 10px; /* Adjusted for reduced height */
+    margin-left: 10px;
+    cursor: pointer;
+    font-family: sans-serif; /* Default system font */
+}
+
+.cookie-banner a {
+    color: #3c2b1f; /* Brown */
+    text-decoration: none; /* No underline */
+    font-family: sans-serif; /* Default system font */
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+    .cookie-banner {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cookie-accept {
+        margin-top: 5px;
+    }
+}
+
+.navbar {
+    background: rgba(240, 185, 213, 0.096);
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.nav-menu {
+    list-style: none;
+    margin: 0;
+    margin-right: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-menu li {
+    margin-left: 20px;
+}
+
+.nav-menu li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.nav-toggle {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .nav-menu {
+        flex-direction: column;
+        display: none;
+    }
+
+    .nav-toggle {
+        display: block;
+        cursor: pointer;
+    }
+
+    .nav-menu.show {
+        display: flex;
+    }
+}
+
+
+
+
+
+

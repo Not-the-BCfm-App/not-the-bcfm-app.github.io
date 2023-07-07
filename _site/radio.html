@@ -1,0 +1,92 @@
+<nav class="navbar">
+    <a href="#" class="nav-toggle">Menu</a>
+    <ul class="nav-menu">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Connect</a></li>
+      <li><a href="#">Radio</a></li>
+    </ul>
+  </nav>
+
+  <script>
+
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
+
+navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('show');
+});
+
+  </script>
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<html>
+    <head>
+        <link rel="icon" href="/fav.png" type="image/x-icon">
+      <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-XHE68749HW"></script>
+            <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-XHE68749HW');
+            </script>
+        <!-- End Google tag (gtag.js) -->
+        
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Live Radio</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    </head>
+
+    <body>
+        <div class="main-content">
+            <header>
+                
+            </header>
+    
+            <div class="audio-card">
+                <a href="/">
+                    <img src="/assets/images/mic_logo_darker_512.png" alt="App Logo" id="logo">
+                    </a>
+                <div class="card-content">
+                    <h2 class="card-title">Fridays at 5pm UK time</h2>
+                    <p class="card-description">Not the BCfm Politics Show, live from Bristol UK</p>
+                    <audio controls>
+                        <source src="https://uk3.internet-radio.com/proxy/prsc?mp=/live" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+        </div>
+
+        <div id="cookie-banner" class="cookie-banner">
+            <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies. <a href="/cookie-policy">Learn more</a></p>
+            <button id="cookie-accept" class="cookie-accept">Got it!</button>
+        </div>
+
+        
+    </body>
+</html>
+
+<script>
+document.getElementById('cookie-accept').onclick = function() {
+    document.getElementById('cookie-banner').style.display = 'none';
+
+    // Set a cookie to remember that the banner has been dismissed
+    document.cookie = 'cookieBannerDismissed=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/';
+}
+
+// If the banner has been dismissed, don't show it again
+if (document.cookie.split(';').some((item) => item.trim().startsWith('cookieBannerDismissed='))) {
+    document.getElementById('cookie-banner').style.display = 'none';
+}
+</script>
