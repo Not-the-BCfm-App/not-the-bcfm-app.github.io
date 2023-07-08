@@ -98,6 +98,7 @@ a {
 header {
   text-align: center;
   padding: 20px 0;
+  margin-top: 40px;
 }
 
 #logo {
@@ -105,4 +106,10 @@ header {
   height: auto;
   border-radius: 50%;
 }
+
+.white-link {
+  color: white !important;
+  /* Add any other styles you want to apply to the links on the home page */
+}
+
 

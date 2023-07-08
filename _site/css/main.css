@@ -93,12 +93,18 @@ a {
 header {
   text-align: center;
   padding: 20px 0;
+  margin-top: 40px;
 }
 
 #logo {
   max-width: 129px; /* Adjust as needed */
   height: auto;
   border-radius: 50%;
+}
+
+.white-link {
+  color: white !important;
+  /* Add any other styles you want to apply to the links on the home page */
 }
 
 /*# sourceMappingURL=main.css.map */
