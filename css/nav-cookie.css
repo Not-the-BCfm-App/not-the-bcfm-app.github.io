@@ -27,13 +27,22 @@ body {
     text-align: center;
     z-index: 1000;
     font-family: sans-serif; /* Default system font */
+    display: flex; /* New */
+    justify-content: center; /* New */
+    align-items: center; /* New - optional, for vertical alignment */
 }
 
+.cookie-banner button {
+    margin-left: 10px;
+}
+
+
 .cookie-accept {
-    background-color: #b8faf6d3; /* Pastel teal */
-    color: #6f4e37; /* Brown */
-    border: none;
-    padding: 5px 10px; /* Adjusted for reduced height */
+    /* background-color: #b8faf6d3; Pastel teal */ 
+    border-width: 2px;
+    border-radius: 6px;
+    border-color: black;
+    padding: 3px 8px; /* Adjusted for reduced height */
     margin-left: 10px;
     cursor: pointer;
     font-family: sans-serif; /* Default system font */
