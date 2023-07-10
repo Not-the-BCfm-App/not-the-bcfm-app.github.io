@@ -184,6 +184,10 @@ audio {
     margin: 1em;
   }
 
+  h2 {
+    font-size: 1.5em; /* Size on small screens */
+}
+
   .my-audio-card {
       margin-top: 20px; /* Add some space between the logo and audio card on small screens */
   }
