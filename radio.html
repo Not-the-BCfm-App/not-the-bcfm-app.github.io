@@ -1,60 +1,24 @@
 ---
-
+layout: default
+title: Radio
+order: 2
 ---
+<article>
+    <div class="my-main-content">
+          <div class="my-audio-card">
+            <a href="/">
+                <img src="/assets/images/mic_logo_darker_512.png" alt="App Logo" id="mylogo">
+                </a>
+            <div class="my-card-content">
+                <h2 class="my-card-title">Fridays at 5pm UK time</h2>
+                <p class="my-card-description">Not the BCfm Politics Show, live from Bristol UK</p>
+                <audio controls>
+                    <source src="https://uk3.internet-radio.com/proxy/prsc?mp=/live" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+</article>
 
 
-{% include bootbar.html %}
-
-
-<!DOCTYPE html>
-<html>
-    <head>
-        <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"> -->
-
-      <!-- Google tag (gtag.js) -->
-            <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XHE68749HW"></script>
-            <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-XHE68749HW');
-            </script> -->
-        <!-- End Google tag (gtag.js) -->
-    
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Live Radio</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-       
-        <!-- <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
-    </head>
-
-    <body>
-      
-
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        
-    </body>
-</html>
-
-<!-- <script>
-document.getElementById('cookie-accept').onclick = function() {
-    document.getElementById('cookie-banner').style.display = 'none';
-
-    // Set a cookie to remember that the banner has been dismissed
-    document.cookie = 'cookieBannerDismissed=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/';
-}
-
-// If the banner has been dismissed, don't show it again
-if (document.cookie.split(';').some((item) => item.trim().startsWith('cookieBannerDismissed='))) {
-    document.getElementById('cookie-banner').style.display = 'none';
-}
-
-</script> -->

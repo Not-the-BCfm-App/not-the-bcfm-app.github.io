@@ -1,79 +1,29 @@
 ---
+layout: default
 title: Contact
 order: 3
 ---
 
-{% include bootbar.html %}
 
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
-      <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XHE68749HW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XHE68749HW');
-</script>
-        <!-- End Google tag (gtag.js) -->
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Contact</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/css/nav-cookie.css">
-</head>
-
-<body>
     <header>
         <a href="/">
         <img src="/assets/images/mic_logo_darker_512.png" alt="App Logo" id="logo">
         </a>
     </header>
+
     <h2>Leave a message, query or comment</h2>
-<form action="https://formsubmit.co/d971c5a50a27bf48b3e64e62e17a83a8" class="cf" method="POST">
-  <div class="half left cf">
-    <input type="text" id="input-name" name="name" placeholder="Name">
-    <input type="email" id="input-email" name="email" placeholder="Email address">
-    <input type="text" id="input-subject" name="subject" placeholder="Subject">
-  </div>
-  <div class="half right cf">
-    <textarea name="message" type="text" name="message" id="input-message" placeholder="Message"></textarea>
-  </div>  
-  <input type="submit" value="Submit" id="input-submit">
-</form>
-</br>
-<div id="cookie-banner" class="cookie-banner">
-  <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies. <a href="/cookie-policy">Learn more</a></p>
-  <button id="cookie-accept" class="cookie-accept">Got it!</button>
-</div>
-<!-- <h2><a href="https://not-the-bcfm-app.github.io/">👈 Back to the Not the BCfm Politics Show App page</a></h2> -->
+    
+    <form action="https://formsubmit.co/d971c5a50a27bf48b3e64e62e17a83a8" class="cf" method="POST">
+        <div class="half left cf">
+            <input type="text" id="input-name" name="name" placeholder="Name">
+            <input type="email" id="input-email" name="email" placeholder="Email address">
+            <input type="text" id="input-subject" name="subject" placeholder="Subject">
+        </div>
+        <div class="half right cf">
+            <textarea name="message" type="text" name="message" id="input-message" placeholder="Message"></textarea>
+        </div>  
+         <input type="submit" value="Submit" id="input-submit">
+    </form>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-</body>
-</html>
 
-<script>
-  document.getElementById('cookie-accept').onclick = function() {
-      document.getElementById('cookie-banner').style.display = 'none';
-  
-      // Set a cookie to remember that the banner has been dismissed
-      document.cookie = 'cookieBannerDismissed=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/';
-  }
-  
-  // If the banner has been dismissed, don't show it again
-  if (document.cookie.split(';').some((item) => item.trim().startsWith('cookieBannerDismissed='))) {
-      document.getElementById('cookie-banner').style.display = 'none';
-  }
-  
-  
-  
-  </script>

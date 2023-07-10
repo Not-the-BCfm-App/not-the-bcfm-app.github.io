@@ -26,7 +26,7 @@ body {
     padding: 10px 0; /* Half the original height by reducing padding */
     text-align: center;
     z-index: 1000;
-    font-family: sans-serif; /* Default system font */
+    font-family: 'Montserrat', sans-serif;
     display: flex; /* New */
     justify-content: center; /* New */
     align-items: center; /* New - optional, for vertical alignment */
@@ -45,13 +45,13 @@ body {
     padding: 3px 8px; /* Adjusted for reduced height */
     margin-left: 10px;
     cursor: pointer;
-    font-family: sans-serif; /* Default system font */
+    font-family: 'Montserrat', sans-serif;
 }
 
 .cookie-banner a {
     color: #3c2b1f; /* Brown */
     text-decoration: none; /* No underline */
-    font-family: sans-serif; /* Default system font */
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* Responsive adjustments */
@@ -66,6 +66,14 @@ body {
     }
 }
 
+.nav-link {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+  }
+
 .navbar {
     background: rgba(240, 185, 213, 0.096);
     padding: 10px;
@@ -73,7 +81,7 @@ body {
     width: 100%;
     z-index: 1000;
     top: 0;
-    font-family: sans-serif;
+    font-family: 'Montserrat', sans-serif;
     display: flex;
     justify-content: flex-end;
 }

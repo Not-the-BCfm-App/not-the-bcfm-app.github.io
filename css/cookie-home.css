@@ -1,4 +1,4 @@
-
+@import url(https://fonts.googleapis.com/css?family=Merriweather);
   
 body {
    
@@ -21,7 +21,7 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: rgba(240, 185, 213, 0.096);
+    background-color: rgba(255, 255, 255, 0.9);
     color: #333;
     padding: 10px 0; /* Half the original height by reducing padding */
     text-align: center;
@@ -49,7 +49,7 @@ body {
 }
 
 .cookie-banner a {
-    color: #3c2b1f; /* Brown */
+    color: #af538e; /* Brown */
     text-decoration: none; /* No underline */
     font-family: 'Montserrat', sans-serif;
 }
@@ -66,14 +66,6 @@ body {
     }
 }
 
-.nav-link {
-    font-family: 'Montserrat', sans-serif;
-  }
-  
-  .navbar-brand {
-    font-family: 'Montserrat', sans-serif;
-  }
-
 .navbar {
     background: rgba(240, 185, 213, 0.096);
     padding: 10px;
@@ -81,7 +73,7 @@ body {
     width: 100%;
     z-index: 1000;
     top: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: sans-serif;
     display: flex;
     justify-content: flex-end;
 }

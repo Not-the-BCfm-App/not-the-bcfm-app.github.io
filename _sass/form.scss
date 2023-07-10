@@ -15,13 +15,8 @@ html, body {
 article {
   display: flex;
   justify-content: center;
-  //align-items: center;
-  // height: 100vh; /* Fill the full viewport height */
-  // margin: 0; /* Reset default margin */
-  // padding: 0; /* Reset default padding */
-  // background: #f0f0f0; /* Set a background color */
-  // font-family: 'Merriweather', sans-serif;
 }
+
 
 h1 {
   text-align: center;
@@ -108,7 +103,7 @@ a {
 header {
   text-align: center;
   padding: 20px 0;
-  margin-top: 40px;
+  margin-top: 90px;
 }
 
 #logo {
@@ -123,10 +118,6 @@ header {
   border-radius: 50%;
 }
 
-.white-link {
-  color: white !important;
-  /* Add any other styles you want to apply to the links on the home page */
-}
 
 .nav-link {
   font-family: 'Montserrat', sans-serif;
@@ -140,6 +131,7 @@ header {
   width: 90%; /* Adjust this if needed */
   max-width: 600px; /* Adjust this if needed */
   display: flex;
+  margin-top: 30px;
   flex-direction: column;
   align-items: flex-start; /* Aligns the logo to one side on larger screens */
 }
@@ -188,7 +180,22 @@ audio {
       justify-content: center; /* Centers the logo on small screens */
   }
 
+  form {
+    margin: 1em;
+  }
+
   .my-audio-card {
       margin-top: 20px; /* Add some space between the logo and audio card on small screens */
   }
+
+  .my-main-content {
+    margin-top: 160px;
+  }
+
+  #mylogo {
+    width: 36px;
+    /* height: auto; */
+    border-radius: 50%;
+    margin-bottom: 10;
+}
 }
