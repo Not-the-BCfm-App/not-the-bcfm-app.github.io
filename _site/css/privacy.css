@@ -5,3 +5,30 @@ body {
   article {
    margin: 10px;
   }
+
+  @media screen and (max-width: 480px) {
+    header {
+        justify-content: center; /* Centers the logo on small screens */
+    }
+  
+    form {
+      margin: 1em;
+    }
+  
+    h2 {
+      font-size: 1.3em; /* Size on small screens */
+  }
+  
+  
+  .navbar-brand {
+    margin: 0;
+    font-size: 15px;
+  }
+  
+  .navbar{
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  }
+  

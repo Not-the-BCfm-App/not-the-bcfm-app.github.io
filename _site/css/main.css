@@ -167,7 +167,7 @@ audio {
   border-radius: 50%;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 480px) {
   header {
     justify-content: center; /* Centers the logo on small screens */
   }
@@ -194,6 +194,11 @@ audio {
   }
   .navbar-brand {
     margin: 0;
+    font-size: 15px;
+  }
+  .navbar {
+    display: flex;
+    justify-content: space-around;
   }
 }
 
