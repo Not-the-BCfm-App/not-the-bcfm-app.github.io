@@ -21,10 +21,12 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #f8f9fa;
     color: #333;
     padding: 10px 0; /* Half the original height by reducing padding */
-    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: justify;
     z-index: 1000;
     font-family: 'Montserrat', sans-serif;
     display: flex; /* New */
@@ -39,7 +41,7 @@ body {
 
 .cookie-accept {
     /* background-color: #b8faf6d3; Pastel teal */ 
-    border-width: 2px;
+    border-width: 1px;
     border-radius: 6px;
     border-color: black;
     padding: 3px 8px; /* Adjusted for reduced height */
@@ -49,7 +51,7 @@ body {
 }
 
 .cookie-banner a {
-    color: #af538e; /* Brown */
+    /* color: #af538e;  */
     text-decoration: none; /* No underline */
     font-family: 'Montserrat', sans-serif;
 }
@@ -59,10 +61,6 @@ body {
     .cookie-banner {
         flex-direction: column;
         align-items: center;
-    }
-
-    .cookie-accept {
-        margin-top: 5px;
     }
 }
 
