@@ -21,11 +21,9 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #f8f9fa;
+    background-color: white;
     color: #333;
     padding: 10px 0; /* Half the original height by reducing padding */
-    padding-left: 10px;
-    padding-right: 10px;
     text-align: justify;
     z-index: 1000;
     font-family: 'Montserrat', sans-serif;
@@ -44,16 +42,20 @@ body {
     border-width: 1px;
     border-radius: 6px;
     border-color: black;
-    padding: 3px 8px; /* Adjusted for reduced height */
+    /* padding: 3px 8px;  */
     margin-left: 10px;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
 }
 
 .cookie-banner a {
-    /* color: #af538e;  */
+    color: #af538e; /* Brown */
     text-decoration: none; /* No underline */
     font-family: 'Montserrat', sans-serif;
+}
+
+p {
+    margin: 0.6em !important;
 }
 
 /* Responsive adjustments */
@@ -61,6 +63,10 @@ body {
     .cookie-banner {
         flex-direction: column;
         align-items: center;
+    }
+
+    .cookie-accept {
+        margin-top: 5px;
     }
 }
 
