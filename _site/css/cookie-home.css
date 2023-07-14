@@ -21,10 +21,10 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.9);
     color: #333;
     padding: 10px 0; /* Half the original height by reducing padding */
-    text-align: justify;
+    text-align: center;
     z-index: 1000;
     font-family: 'Montserrat', sans-serif;
     display: flex; /* New */
@@ -39,23 +39,19 @@ body {
 
 .cookie-accept {
     /* background-color: #b8faf6d3; Pastel teal */ 
-    border-width: 1px;
+    border-width: 2px;
     border-radius: 6px;
     border-color: black;
-    /* padding: 3px 8px;  */
+    padding: 3px 8px; /* Adjusted for reduced height */
     margin-left: 10px;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
 }
 
 .cookie-banner a {
-    /* color: #af538e;  */
+    color: #af538e; /* Brown */
     text-decoration: none; /* No underline */
     font-family: 'Montserrat', sans-serif;
-}
-
-p {
-    margin: 0.6em !important;
 }
 
 /* Responsive adjustments */
@@ -65,9 +61,9 @@ p {
         align-items: center;
     }
 
-    /* .cookie-accept {
+    .cookie-accept {
         margin-top: 5px;
-    } */
+    }
 }
 
 .navbar {
