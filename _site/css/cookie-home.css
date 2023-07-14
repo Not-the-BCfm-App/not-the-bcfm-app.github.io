@@ -49,7 +49,7 @@ body {
 }
 
 .cookie-banner a {
-    color: #af538e; /* Brown */
+    /* color: #af538e;  */
     text-decoration: none; /* No underline */
     font-family: 'Montserrat', sans-serif;
 }
