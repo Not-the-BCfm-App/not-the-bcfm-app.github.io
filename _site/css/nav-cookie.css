@@ -75,11 +75,7 @@ body {
   }
 
 .navbar {
-    
-    display: flex !important;
-    justify-content: space-around !important;
     background: rgba(240, 185, 213, 0.096);
-    margin: 0;
     padding: 10px;
     position: fixed;
     width: 100%;
@@ -113,16 +109,10 @@ body {
     display: none;
 }
 
-
-
-@media (max-width: 600px) {
+@media (max-width: 480px) {
     .nav-menu {
         flex-direction: column;
         display: none;
-    }
-    .navbar-brand {
-        margin: 0;
-        font-size: 15px;
     }
 
     .nav-toggle {
@@ -133,6 +123,5 @@ body {
     .nav-menu.show {
         display: flex;
     }
-    
 }
 
