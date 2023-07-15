@@ -75,6 +75,9 @@ body {
   }
 
 .navbar {
+    
+    display: flex !important;
+    justify-content: space-around !important;
     background: rgba(240, 185, 213, 0.096);
     margin: 0;
     padding: 10px;
