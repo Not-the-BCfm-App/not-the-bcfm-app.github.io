@@ -72,7 +72,6 @@ body {
   
   .navbar-brand {
     font-family: 'Montserrat', sans-serif;
-    font-size: small;
   }
 
 .navbar {
@@ -111,10 +110,16 @@ body {
     display: none;
 }
 
+
+
 @media (max-width: 600px) {
     .nav-menu {
         flex-direction: column;
         display: none;
+    }
+    .navbar-brand {
+        margin: 0;
+        font-size: 15px;
     }
 
     .nav-toggle {
@@ -125,5 +130,6 @@ body {
     .nav-menu.show {
         display: flex;
     }
+    
 }
 
