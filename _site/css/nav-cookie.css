@@ -109,7 +109,7 @@ body {
     display: none;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .nav-menu {
         flex-direction: column;
         display: none;
