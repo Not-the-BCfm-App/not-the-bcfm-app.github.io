@@ -27,8 +27,9 @@ h2 {
   text-shadow: 1px 1px 0 white;
 }
 
-.myh2 {
-  font-family: "Montserrat", sans-serif;
+#myh2 {
+  font-family: "Ubuntu Mono", monospace !important;
+  font-size: 1.5em;
 }
 
 form {
