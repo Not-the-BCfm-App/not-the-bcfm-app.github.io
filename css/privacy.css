@@ -8,7 +8,7 @@ body {
 
 
     .navbar {
-      justify-content: space-around;
+      justify-content: space-between;
       display: flex;
     }
 
@@ -60,7 +60,7 @@ body {
 
 .navbar{
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 }
