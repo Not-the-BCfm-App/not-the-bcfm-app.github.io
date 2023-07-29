@@ -22,14 +22,13 @@ h1 {
 }
 
 h2 {
-  text-align: center;
-  color: #a8a8a8;
-  text-shadow: 1px 1px 0 white;
+  text-align: left;
+  color: #757575;
 }
 
 #myh2 {
-  font-family: "Ubuntu Mono", monospace !important;
-  font-size: 1.5em;
+  font-family: "Merriweather", sans-serif;
+  font-size: 1.2em;
 }
 
 form {

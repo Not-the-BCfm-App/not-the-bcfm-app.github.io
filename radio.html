@@ -1,8 +1,11 @@
 ---
 layout: default
 title: Radio
-order: 2
+permalink: /radio/
+order: 4
 ---
+
+
 <article>
     <div class="my-main-content">
           <div class="my-audio-card">
@@ -11,16 +14,45 @@ order: 2
                 <p class="my-card-description">Not the BCfm Politics Show, live from Bristol UK</p>
                 <audio controls>
                     <source src="https://uk3.internet-radio.com/proxy/prsc?mp=/live" type="audio/mpeg">
+                    <!-- <metadata url="https://uk3.internet-radio.com/proxy/prsc?mp=/live&type=metadata"></metadata> -->
                     Your browser does not support the audio element.
                 </audio>
             </div>
-            <div style="margin-top: 1.5em;">
+            <div style="margin-top: 1.5em; color: #757575 !important;">
                 <p<h4 class="my-card-description">The show is repeated at 11pm on Fridays and at 11am and 5pm all week. It's also broadcast over Sunday Breakfast at Camberley’s</h4>
             <a href="http://www.radioquk.com/listen-live.html">RadioQ</a>
             </div>
+            <!-- <div id="show-title"></div> -->
         </div>
     </div>
 </article>
+
+<!-- <script>
+    // Create an XMLHTTPRequest object
+var xhr = new XMLHttpRequest();
+
+// Set up the request properties
+xhr.open('GET', 'https://uk3.internet-radio.com/proxy/prsc?mp=/live&type=metadata', true);
+xhr.onload = function() {
+    // Check if the response was successful
+    if (xhr.status === 200) {
+        // Parse the metadata response
+        var metadata = JSON.parse(xhr.responseText).metadata;
+
+        // Extract the show title from the metadata
+        var showTitle = metadata['title'];
+
+        // Display the show title in the page
+        document.getElementById('show-title').innerHTML = showTitle;
+    } else {
+        console.log('Error loading metadata: ' + xhr.statusText);
+    }
+};
+
+// Send the request
+xhr.send();
+
+</script> -->
 
 
 
