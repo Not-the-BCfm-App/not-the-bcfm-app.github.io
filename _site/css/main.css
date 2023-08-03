@@ -179,7 +179,7 @@ audio {
     margin: 1em;
   }
   h2 {
-    font-size: 1.3em; /* Size on small screens */
+    font-size: 1.5em; /* Size on small screens */
   }
   .my-audio-card {
     margin-top: 20px; /* Add some space between the logo and audio card on small screens */
@@ -198,7 +198,7 @@ audio {
   }
   .navbar-brand {
     margin: 0;
-    font-size: 15px;
+    font-size: 16px;
   }
   .navbar {
     display: flex;
