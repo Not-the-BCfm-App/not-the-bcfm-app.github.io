@@ -27,6 +27,16 @@ order: 3
         </div>  
          <input type="submit" value="Send" id="input-submit">
     </form>
+<script>
+const form = document.querySelector('form');
+const submitBtn = document.getElementById('input-submit');
 
+form.addEventListener('submit', (e) => {
+    submitBtn.value = 'Sending...';
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.7';
+});
+    
+</script>
 
 
