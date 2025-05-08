@@ -78,6 +78,10 @@ body {
     justify-content: flex-end;
 }
 
+.bg-light {
+    background-color: #081d32 !important;
+}
+
 
 .nav-menu {
     list-style: none;
