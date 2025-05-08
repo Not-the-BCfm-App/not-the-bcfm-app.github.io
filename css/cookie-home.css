@@ -78,17 +78,6 @@ body {
     justify-content: flex-end;
 }
 
-.bg-light {
-    background-color: #020000 !important;
-}
-
-.navbar-light .navbar-brand {
-    color: a8b3c0 !important;
-}
-
-.navbar-light .navbar-nav .nav-link {
-    color: rgb(248 240 240 / 99%) !important;
-}
 
 .nav-menu {
     list-style: none;
