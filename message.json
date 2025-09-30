@@ -1,6 +1,6 @@
 {
-  "message": "",
-  "show": false,
+  "message": "hello",
+  "show": true,
   "type": "info",
-  "timestamp": "2024-01-01T00:00:00Z"
+  "timestamp": "2025-09-30T15:12:11Z"
 }
