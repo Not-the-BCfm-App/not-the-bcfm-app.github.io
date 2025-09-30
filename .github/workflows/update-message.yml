@@ -1,0 +1,51 @@
+name: Update App Message
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Message to display in the app'
+        required: true
+        type: string
+      type:
+        description: 'Message type (info, warning, error, success)'
+        required: true
+        type: choice
+        options:
+          - info
+          - warning
+          - error
+          - success
+        default: info
+      show:
+        description: 'Show message in app'
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  update-message:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Update message.json
+      run: |
+        cat > message.json << EOF
+        {
+          "message": "${{ github.event.inputs.message }}",
+          "show": ${{ github.event.inputs.show }},
+          "type": "${{ github.event.inputs.type }}",
+          "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        }
+        EOF
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add message.json
+        git commit -m "Update app message: ${{ github.event.inputs.message }}" || exit 0
+        git push
