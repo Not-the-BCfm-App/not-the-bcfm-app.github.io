@@ -287,7 +287,7 @@
 <body>
     <div class="admin-container">
         <div class="header">
-            <h1>📻 Radio Show Admin</h1>
+            <h1>📻 Radio Show Messages</h1>
             <p>Post messages to the app</p>
         </div>
         
@@ -353,13 +353,15 @@
     <script>
         let showMessage = true;
         
-        // Simple file download approach (secure - no tokens exposed)
-
-        // Load current message on page load
+        // Apps Script backend config
+        const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxvHZQ16cvPaiR8vJjkA1ej-xLQXL7P8yYZDRsUYoAA_msSYYM4qlPqMfNSF8O5bCZC/exec';
+        const SECRET = 'ntbcfmps-2025-secret';
+        
+        // Load preview and current message on page load
         window.onload = function() {
+            updatePreview();
             loadCurrentMessage();
             loadMessageHistory();
-            updatePreview();
         };
         
         function toggleShow() {
@@ -404,81 +406,43 @@
             }
         }
         
+        // Load current message from Apps Script
         async function loadCurrentMessage() {
             try {
-                // Try backend first, fallback to message.json
-                if (BACKEND_URL.includes('YOUR_SCRIPT_ID')) {
-                    // Fallback to local file
-                    const response = await fetch('message.json');
-                    const data = await response.json();
-                    
-                    if (data.show && data.message) {
-                        document.getElementById('currentMessage').style.display = 'block';
-                        document.getElementById('currentMessageText').textContent = data.message;
-                    }
-                } else {
-                    // Use backend
-                    const response = await fetch(BACKEND_URL);
-                    const data = await response.json();
-                    
-                    if (data.current && data.current.show && data.current.message) {
-                        document.getElementById('currentMessage').style.display = 'block';
-                        document.getElementById('currentMessageText').textContent = data.current.message;
-                    }
+                const res = await fetch(BACKEND_URL, { method: 'GET' });
+                const data = await res.json();
+                if (data && data.show && data.message) {
+                    document.getElementById('currentMessage').style.display = 'block';
+                    document.getElementById('currentMessageText').textContent = data.message;
                 }
-            } catch (error) {
-                console.log('No current message or error loading:', error);
+            } catch (e) {
+                console.log('No current message or error:', e);
             }
         }
-        
+
+        // Simple history (shows current only for now)
         async function loadMessageHistory() {
             try {
-                if (BACKEND_URL.includes('YOUR_SCRIPT_ID')) {
-                    document.getElementById('messageHistory').innerHTML = '<div class="loading">Backend not configured. Set BACKEND_URL in the code.</div>';
-                    return;
-                }
-                
-                const response = await fetch(BACKEND_URL);
-                const data = await response.json();
-                
-                if (data.messages && data.messages.length > 0) {
-                    renderMessageHistory(data.messages);
+                const res = await fetch(BACKEND_URL, { method: 'GET' });
+                const data = await res.json();
+                if (data && data.message) {
+                    const html = `
+                        <div class="message-item ${data.type || 'info'}">
+                            <div class="message-content">
+                                <div>${data.message}</div>
+                                <div class="message-meta">${(new Date(data.timestamp||'')).toLocaleString()} • ${data.type||'info'}</div>
+                            </div>
+                            <div class="message-status ${data.show ? 'active' : ''}">
+                                ${data.show ? 'ACTIVE' : 'HIDDEN'}
+                            </div>
+                        </div>`;
+                    document.getElementById('messageHistory').innerHTML = html;
                 } else {
                     document.getElementById('messageHistory').innerHTML = '<div class="loading">No messages yet.</div>';
                 }
-            } catch (error) {
+            } catch (e) {
                 document.getElementById('messageHistory').innerHTML = '<div class="loading">Error loading messages.</div>';
-                console.error('Error loading history:', error);
             }
-        }
-        
-        function renderMessageHistory(messages) {
-            const historyDiv = document.getElementById('messageHistory');
-            
-            if (messages.length === 0) {
-                historyDiv.innerHTML = '<div class="loading">No messages yet.</div>';
-                return;
-            }
-            
-            const html = messages.slice(0, 10).map(msg => {
-                const date = new Date(msg.timestamp).toLocaleString();
-                const typeClass = msg.type || 'info';
-                const statusClass = msg.show ? 'active' : '';
-                
-                return `
-                    <div class="message-item ${typeClass}">
-                        <div class="message-content">
-                            <div>${msg.message}</div>
-                            <div class="message-meta">${date} • ${typeClass}</div>
-                        </div>
-                        <div class="message-status ${statusClass}">
-                            ${msg.show ? 'ACTIVE' : 'HIDDEN'}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            historyDiv.innerHTML = html;
         }
         
         document.getElementById('message').addEventListener('input', updatePreview);
@@ -491,7 +455,7 @@
 
             console.log('🔄 Form submitted');
             console.log('🔄 BACKEND_URL:', BACKEND_URL);
-            console.log('🔄 SECRET:', SECRET);
+            console.log('🔄 SECRET set:', !!SECRET);
 
             const submitBtn = document.getElementById('submitBtn');
             const status = document.getElementById('status');
@@ -514,45 +478,26 @@
             };
 
             try {
-                // Simple file download approach (secure)
-                console.log('📁 Using secure file download approach');
+                // Post to Apps Script backend
+                const response = await fetch(BACKEND_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, type, show: showMessage, secret: SECRET })
+                });
 
-                const messageData = {
-                    message: message,
-                    show: showMessage,
-                    type: type,
-                    timestamp: new Date().toISOString()
-                };
-
-                // Create and download the JSON file
-                const jsonData = JSON.stringify(messageData, null, 2);
-                const blob = new Blob([jsonData], { type: 'application/json' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'message.json';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-
-                status.className = 'status success';
-                status.textContent = '✅ Message file downloaded! Upload message.json to your GitHub repository.';
-                status.style.display = 'block';
-
-                // Clear form
-                document.getElementById('message').value = '';
-                showMessage = true;
-                document.getElementById('showToggle').classList.add('active');
-                updatePreview();
-                
-                setTimeout(() => {
-                    status.style.display = 'none';
-                }, 3000);
-                
+                if (response.ok) {
+                    status.className = 'status success';
+                    status.textContent = '✅ Message posted!';
+                    status.style.display = 'block';
+                    loadCurrentMessage();
+                    loadMessageHistory();
+                } else {
+                    const txt = await response.text();
+                    throw new Error(txt);
+                }
             } catch (error) {
                 status.className = 'status error';
-                status.textContent = '❌ Error posting message. Please try again.';
+                status.textContent = '❌ Error posting message. ' + error;
                 status.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
