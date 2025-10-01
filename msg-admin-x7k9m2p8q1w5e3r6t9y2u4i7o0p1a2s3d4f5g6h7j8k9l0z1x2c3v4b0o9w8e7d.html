@@ -353,10 +353,7 @@
     <script>
         let showMessage = true;
         
-        // GitHub Gist API Configuration
-        const GIST_ID = '1e4eafb90f47583afd4ca5177ce57928';
-        const GITHUB_TOKEN = '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';
-        const GITHUB_USERNAME = 'NickPax';
+        // Simple file download approach (secure - no tokens exposed)
 
         // Load current message on page load
         window.onload = function() {
@@ -517,8 +514,8 @@
             };
 
             try {
-                // Use GitHub Gist API to update the message
-                console.log('🌐 Using GitHub Gist API');
+                // Simple file download approach (secure)
+                console.log('📁 Using secure file download approach');
 
                 const messageData = {
                     message: message,
@@ -527,37 +524,21 @@
                     timestamp: new Date().toISOString()
                 };
 
-                const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        files: {
-                            'message.json': {
-                                content: JSON.stringify(messageData, null, 2)
-                            }
-                        }
-                    })
-                });
+                // Create and download the JSON file
+                const jsonData = JSON.stringify(messageData, null, 2);
+                const blob = new Blob([jsonData], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'message.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
 
-                console.log('📡 Response status:', response.status);
-                console.log('📡 Response ok:', response.ok);
-
-                if (response.ok) {
-                    status.className = 'status success';
-                    status.textContent = '✅ Message posted successfully!';
-                    status.style.display = 'block';
-
-                    // Refresh history
-                    loadMessageHistory();
-                    loadCurrentMessage();
-                } else {
-                    const errorText = await response.text();
-                    console.log('❌ Response error:', errorText);
-                    throw new Error(`GitHub API error: ${response.status} - ${errorText}`);
-                }
+                status.className = 'status success';
+                status.textContent = '✅ Message file downloaded! Upload message.json to your GitHub repository.';
+                status.style.display = 'block';
 
                 // Clear form
                 document.getElementById('message').value = '';
