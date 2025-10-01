@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Show Messages</title>
+    <title>Radio Show Admin Panel</title>
     <style>
         * {
             margin: 0;
@@ -287,7 +287,7 @@
 <body>
     <div class="admin-container">
         <div class="header">
-            <h1>📻 Radio Show Messages</h1>
+            <h1>📻 Radio Show Admin</h1>
             <p>Post messages to the app</p>
         </div>
         
@@ -355,8 +355,8 @@
         
         const BACKEND_URL = 'https://68dd20613ce40a054bac223f--nimble-gelato-d0f980.netlify.app/.netlify/functions/messages';
         const SECRET = 'ntbcfmps-2025-secret-369';
-       
-        
+
+
         // Load current message on page load
         window.onload = function() {
             loadCurrentMessage();
@@ -490,26 +490,36 @@
         
         document.getElementById('messageForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
+            console.log('🔄 Form submitted');
+            console.log('🔄 BACKEND_URL:', BACKEND_URL);
+            console.log('🔄 SECRET:', SECRET);
+
             const submitBtn = document.getElementById('submitBtn');
             const status = document.getElementById('status');
-            
+
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ Posting...';
-            
+
             const message = document.getElementById('message').value;
             const type = document.querySelector('input[name="type"]:checked').value;
-            
+
+            console.log('📝 Message:', message);
+            console.log('📝 Type:', type);
+            console.log('📝 Show:', showMessage);
+
             const messageData = {
                 message: message,
                 show: showMessage,
                 type: type,
                 timestamp: new Date().toISOString()
             };
-            
+
             try {
                 // Try backend first, fallback to download
+                console.log('🔍 Checking BACKEND_URL condition:', !BACKEND_URL.includes('YOUR_SCRIPT_ID'));
                 if (!BACKEND_URL.includes('YOUR_SCRIPT_ID')) {
+                    console.log('🌐 Using backend API');
                     // Use backend
                     const response = await fetch(BACKEND_URL, {
                         method: 'POST',
@@ -521,17 +531,22 @@
                             secret: SECRET
                         })
                     });
-                    
+
+                    console.log('📡 Response status:', response.status);
+                    console.log('📡 Response ok:', response.ok);
+
                     if (response.ok) {
                         status.className = 'status success';
                         status.textContent = '✅ Message posted successfully!';
                         status.style.display = 'block';
-                        
+
                         // Refresh history
                         loadMessageHistory();
                         loadCurrentMessage();
                     } else {
-                        throw new Error('Backend error');
+                        const errorText = await response.text();
+                        console.log('❌ Response error:', errorText);
+                        throw new Error(`Backend error: ${response.status} - ${errorText}`);
                     }
                 } else {
                     // Fallback: Create downloadable file
