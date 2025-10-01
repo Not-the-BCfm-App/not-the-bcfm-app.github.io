@@ -226,6 +226,62 @@
             border-radius: 5px;
             border: 1px solid #e1e5e9;
         }
+        
+        .history-section {
+            margin-top: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .history-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .message-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .message-item.warning { border-left-color: #f59e0b; }
+        .message-item.error { border-left-color: #ef4444; }
+        .message-item.success { border-left-color: #10b981; }
+        
+        .message-content {
+            flex: 1;
+        }
+        
+        .message-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .message-status {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: #e1e5e9;
+            color: #666;
+        }
+        
+        .message-status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -287,14 +343,23 @@
         </form>
         
         <div id="status" class="status"></div>
+        
+        <div class="history-section">
+            <h3>📝 Recent Messages</h3>
+            <div id="messageHistory" class="loading">Loading messages...</div>
+        </div>
     </div>
 
     <script>
         let showMessage = true;
         
+        const BACKEND_URL = 'https://gist.githubusercontent.com/NickPax/f804badd8d4c7201ff55293e8f98a722/raw/cb9bd21b59191ddac8fd4e720387ad71538a6b00/message.json';
+        const SECRET = 'ntbcfmps-2025-secret-369';
+        
         // Load current message on page load
         window.onload = function() {
             loadCurrentMessage();
+            loadMessageHistory();
             updatePreview();
         };
         
@@ -342,16 +407,79 @@
         
         async function loadCurrentMessage() {
             try {
-                const response = await fetch('message.json');
-                const data = await response.json();
-                
-                if (data.show && data.message) {
-                    document.getElementById('currentMessage').style.display = 'block';
-                    document.getElementById('currentMessageText').textContent = data.message;
+                // Try backend first, fallback to message.json
+                if (BACKEND_URL.includes('YOUR_SCRIPT_ID')) {
+                    // Fallback to local file
+                    const response = await fetch('message.json');
+                    const data = await response.json();
+                    
+                    if (data.show && data.message) {
+                        document.getElementById('currentMessage').style.display = 'block';
+                        document.getElementById('currentMessageText').textContent = data.message;
+                    }
+                } else {
+                    // Use backend
+                    const response = await fetch(BACKEND_URL);
+                    const data = await response.json();
+                    
+                    if (data.current && data.current.show && data.current.message) {
+                        document.getElementById('currentMessage').style.display = 'block';
+                        document.getElementById('currentMessageText').textContent = data.current.message;
+                    }
                 }
             } catch (error) {
                 console.log('No current message or error loading:', error);
             }
+        }
+        
+        async function loadMessageHistory() {
+            try {
+                if (BACKEND_URL.includes('YOUR_SCRIPT_ID')) {
+                    document.getElementById('messageHistory').innerHTML = '<div class="loading">Backend not configured. Set BACKEND_URL in the code.</div>';
+                    return;
+                }
+                
+                const response = await fetch(BACKEND_URL);
+                const data = await response.json();
+                
+                if (data.messages && data.messages.length > 0) {
+                    renderMessageHistory(data.messages);
+                } else {
+                    document.getElementById('messageHistory').innerHTML = '<div class="loading">No messages yet.</div>';
+                }
+            } catch (error) {
+                document.getElementById('messageHistory').innerHTML = '<div class="loading">Error loading messages.</div>';
+                console.error('Error loading history:', error);
+            }
+        }
+        
+        function renderMessageHistory(messages) {
+            const historyDiv = document.getElementById('messageHistory');
+            
+            if (messages.length === 0) {
+                historyDiv.innerHTML = '<div class="loading">No messages yet.</div>';
+                return;
+            }
+            
+            const html = messages.slice(0, 10).map(msg => {
+                const date = new Date(msg.timestamp).toLocaleString();
+                const typeClass = msg.type || 'info';
+                const statusClass = msg.show ? 'active' : '';
+                
+                return `
+                    <div class="message-item ${typeClass}">
+                        <div class="message-content">
+                            <div>${msg.message}</div>
+                            <div class="message-meta">${date} • ${typeClass}</div>
+                        </div>
+                        <div class="message-status ${statusClass}">
+                            ${msg.show ? 'ACTIVE' : 'HIDDEN'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            historyDiv.innerHTML = html;
         }
         
         document.getElementById('message').addEventListener('input', updatePreview);
@@ -379,13 +507,55 @@
             };
             
             try {
-                // This would normally post to your server
-                // For now, we'll simulate the process
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                status.className = 'status success';
-                status.textContent = '✅ Message posted successfully!';
-                status.style.display = 'block';
+                // Try backend first, fallback to download
+                if (!BACKEND_URL.includes('YOUR_SCRIPT_ID')) {
+                    // Use backend
+                    const response = await fetch(BACKEND_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: message,
+                            show: showMessage,
+                            type: type,
+                            secret: SECRET
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        status.className = 'status success';
+                        status.textContent = '✅ Message posted successfully!';
+                        status.style.display = 'block';
+                        
+                        // Refresh history
+                        loadMessageHistory();
+                        loadCurrentMessage();
+                    } else {
+                        throw new Error('Backend error');
+                    }
+                } else {
+                    // Fallback: Create downloadable file
+                    const messageData = {
+                        message: message,
+                        show: showMessage,
+                        type: type,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    const jsonData = JSON.stringify(messageData, null, 2);
+                    const blob = new Blob([jsonData], { type: 'application/json' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'message.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    
+                    status.className = 'status success';
+                    status.textContent = '✅ Message file downloaded! Upload message.json to your repository.';
+                    status.style.display = 'block';
+                }
                 
                 // Clear form
                 document.getElementById('message').value = '';
