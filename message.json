@@ -1,6 +1,6 @@
 {
-  "message": "",
-  "type": "info",
-  "show": false,
-  "timestamp": "2025-10-02T19:41:20.217Z"
+  "message": "line\nisnt it?\nanother at 2144",
+  "type": "warning",
+  "show": true,
+  "timestamp": "2025-10-02T19:44:17.614Z"
 }
