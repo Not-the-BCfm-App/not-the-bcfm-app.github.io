@@ -1,6 +1,6 @@
 {
-  "message": "hi",
-  "type": "warning",
-  "show": true,
-  "timestamp": "2025-10-02T21:03:50.730Z"
+  "message": "",
+  "type": "info",
+  "show": false,
+  "timestamp": "2025-10-02T21:11:29.941Z"
 }
