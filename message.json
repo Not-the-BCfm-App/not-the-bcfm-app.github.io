@@ -1,6 +1,6 @@
 {
-  "message": "",
-  "type": "info",
-  "show": false,
-  "timestamp": "2025-10-02T20:25:25.180Z"
+  "message": "message\noi\noi\noi\noiu",
+  "type": "warning",
+  "show": true,
+  "timestamp": "2025-10-02T20:46:02.767Z"
 }
