@@ -136,46 +136,43 @@
         <h1>📻 Radio Show Message Admin</h1>
         
         <div class="config-section">
-            <h3>🔧 Configuration Required</h3>
-            <p>This admin panel needs a GitHub token to work. You have two options:</p>
-            <ol>
-                <li><strong>Option 1:</strong> Create a private repository with your token (recommended)</li>
-                <li><strong>Option 2:</strong> Enter your token manually each time</li>
-            </ol>
-            <p><strong>For Option 1:</strong> Create a private repo called "admin-config" and add a file called "config.js" with your token.</p>
+            <h3>🔑 First Time Setup</h3>
+            <p><strong>You'll need a special code to send messages to the app.</strong></p>
+            <p>When prompted, enter the GitHub token that was provided to you. This is like a password that allows you to update the app's messages.</p>
+            <p><em>Don't worry - this is secure and only you can use it!</em></p>
         </div>
         
         <div class="current-message">
-            <h3>Current Message Status</h3>
+            <h3>📱 What's Currently Showing on the App</h3>
             <div id="currentStatus">Loading...</div>
         </div>
 
         <form id="messageForm">
             <div class="form-group">
-                <label for="message">Message:</label>
+                <label for="message">📝 What message do you want to send to listeners?</label>
                 <textarea id="message" placeholder="e.g., Show delayed 30 mins, sorry" required></textarea>
             </div>
 
             <div class="form-group">
-                <label for="type">Message Type:</label>
+                <label for="type">🎨 How important is this message?</label>
                 <select id="type">
-                    <option value="info">ℹ️ Info (Blue)</option>
-                    <option value="warning">⚠️ Warning (Orange)</option>
-                    <option value="error">❌ Error (Red)</option>
-                    <option value="success">✅ Success (Green)</option>
+                    <option value="info">ℹ️ General Info (Blue)</option>
+                    <option value="warning">⚠️ Important Notice (Orange)</option>
+                    <option value="error">❌ Urgent Alert (Red)</option>
+                    <option value="success">✅ Good News (Green)</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <div class="checkbox-group">
                     <input type="checkbox" id="show" checked>
-                    <label for="show">Show this message on the app</label>
+                    <label for="show">✅ Show this message to listeners</label>
                 </div>
             </div>
 
             <div class="button-group">
-                <button type="submit" class="btn-primary">📤 Post Message</button>
-                <button type="button" id="clearBtn" class="btn-secondary">🗑️ Clear Message</button>
+                <button type="submit" class="btn-primary">📻 Send Message to App</button>
+                <button type="button" id="clearBtn" class="btn-secondary">🗑️ Remove Current Message</button>
             </div>
         </form>
 
@@ -210,7 +207,7 @@
             }
             
             // Fallback to prompt
-            GITHUB_TOKEN = prompt('Enter GitHub token (or set up private repo for automatic config):');
+            GITHUB_TOKEN = prompt('Please enter your special access code to send messages:');
         }
 
         // Load current message status
@@ -221,16 +218,16 @@
                 
                 if (data.message) {
                     document.getElementById('currentStatus').innerHTML = `
-                        <strong>Current Message:</strong> "${data.message}"<br>
-                        <strong>Type:</strong> ${data.type}<br>
-                        <strong>Visible:</strong> ${data.show ? 'Yes' : 'No'}<br>
-                        <strong>Last Updated:</strong> ${new Date(data.timestamp).toLocaleString()}
+                        <strong>📱 Message showing to listeners:</strong> "${data.message}"<br>
+                        <strong>🎨 Type:</strong> ${data.type}<br>
+                        <strong>👀 Visible to listeners:</strong> ${data.show ? 'Yes' : 'No'}<br>
+                        <strong>⏰ Last updated:</strong> ${new Date(data.timestamp).toLocaleString()}
                     `;
                 } else {
-                    document.getElementById('currentStatus').innerHTML = 'No current message';
+                    document.getElementById('currentStatus').innerHTML = '📭 No message currently showing to listeners';
                 }
             } catch (error) {
-                document.getElementById('currentStatus').innerHTML = 'Error loading current message';
+                document.getElementById('currentStatus').innerHTML = '❌ Unable to check current message - please try again';
             }
         }
 
@@ -290,12 +287,12 @@
             };
             
             try {
-                showStatus('Clearing message...', 'loading');
+                showStatus('🗑️ Removing message from listeners...', 'loading');
                 await updateMessage(emptyMessage);
-                showStatus('✅ Message cleared successfully!', 'success');
+                showStatus('✅ Message removed! Listeners will no longer see it.', 'success');
                 loadCurrentMessage();
             } catch (error) {
-                showStatus(`❌ Error clearing message: ${error.message}`, 'error');
+                showStatus(`❌ Could not remove message: ${error.message}`, 'error');
             }
         }
 
@@ -315,7 +312,7 @@
             const show = document.getElementById('show').checked;
             
             if (!message.trim()) {
-                showStatus('Please enter a message', 'error');
+                showStatus('❌ Please write a message to send to listeners', 'error');
                 return;
             }
             
@@ -327,12 +324,12 @@
             };
             
             try {
-                showStatus('Posting message...', 'loading');
+                showStatus('📻 Sending message to listeners...', 'loading');
                 await updateMessage(messageData);
-                showStatus('✅ Message posted successfully! The app will pick it up automatically.', 'success');
+                showStatus('🎉 Message sent! Listeners will see it when they open the app.', 'success');
                 loadCurrentMessage();
             } catch (error) {
-                showStatus(`❌ Error posting message: ${error.message}`, 'error');
+                showStatus(`❌ Could not send message: ${error.message}`, 'error');
             }
         });
 
