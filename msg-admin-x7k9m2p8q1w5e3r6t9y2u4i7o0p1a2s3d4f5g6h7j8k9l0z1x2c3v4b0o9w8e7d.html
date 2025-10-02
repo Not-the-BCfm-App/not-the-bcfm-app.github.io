@@ -109,14 +109,6 @@
             margin-bottom: 30px;
             border-left: 4px solid #667eea;
         }
-        .message-preview {
-            background: #e9ecef;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-family: monospace;
-            white-space: pre-wrap;
-        }
         .checkbox-group {
             display: flex;
             align-items: center;
@@ -126,11 +118,32 @@
             width: auto;
             margin: 0;
         }
+        .config-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .config-section h3 {
+            margin-top: 0;
+            color: #856404;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>📻 Radio Show Message Admin</h1>
+        
+        <div class="config-section">
+            <h3>🔧 Configuration Required</h3>
+            <p>This admin panel needs a GitHub token to work. You have two options:</p>
+            <ol>
+                <li><strong>Option 1:</strong> Create a private repository with your token (recommended)</li>
+                <li><strong>Option 2:</strong> Enter your token manually each time</li>
+            </ol>
+            <p><strong>For Option 1:</strong> Create a private repo called "admin-config" and add a file called "config.js" with your token.</p>
+        </div>
         
         <div class="current-message">
             <h3>Current Message Status</h3>
@@ -169,15 +182,36 @@
         <div id="status"></div>
     </div>
 
-    <!-- Load configuration -->
-    <script src="config.js"></script>
     <script>
-        const REPO_OWNER = window.REPO_OWNER || 'Not-the-BCfm-App';
-        const REPO_NAME = window.REPO_NAME || 'not-the-bcfm-app.github.io';
-        const FILE_PATH = window.FILE_PATH || 'message.json';
+        const REPO_OWNER = 'Not-the-BCfm-App';
+        const REPO_NAME = 'not-the-bcfm-app.github.io';
+        const FILE_PATH = 'message.json';
         
-        // Get token from config file or prompt
-        const GITHUB_TOKEN = window.GITHUB_TOKEN || prompt('Enter GitHub token:');
+        // Try to load config from private repo, fallback to prompt
+        let GITHUB_TOKEN = null;
+        
+        // Try to load config from private repo first
+        async function loadConfig() {
+            try {
+                // Try to load from private repo (replace with your private repo)
+                const configResponse = await fetch('https://raw.githubusercontent.com/NickPax/admin-config/main/config.js');
+                if (configResponse.ok) {
+                    const configText = await configResponse.text();
+                    // Extract token from config
+                    const tokenMatch = configText.match(/window\.GITHUB_TOKEN\s*=\s*['"]([^'"]+)['"]/);
+                    if (tokenMatch) {
+                        GITHUB_TOKEN = tokenMatch[1];
+                        console.log('✅ Config loaded from private repo');
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.log('⚠️ Could not load config from private repo:', error.message);
+            }
+            
+            // Fallback to prompt
+            GITHUB_TOKEN = prompt('Enter GitHub token (or set up private repo for automatic config):');
+        }
 
         // Load current message status
         async function loadCurrentMessage() {
@@ -202,6 +236,10 @@
 
         // Update message via GitHub API
         async function updateMessage(messageData) {
+            if (!GITHUB_TOKEN) {
+                throw new Error('No GitHub token available');
+            }
+            
             const content = JSON.stringify(messageData, null, 2);
             const encodedContent = btoa(unescape(encodeURIComponent(content)));
             
@@ -301,8 +339,13 @@
         // Clear button
         document.getElementById('clearBtn').addEventListener('click', clearMessage);
 
-        // Load current message on page load
-        loadCurrentMessage();
+        // Initialize
+        async function init() {
+            await loadConfig();
+            await loadCurrentMessage();
+        }
+
+        init();
     </script>
 </body>
 </html>
