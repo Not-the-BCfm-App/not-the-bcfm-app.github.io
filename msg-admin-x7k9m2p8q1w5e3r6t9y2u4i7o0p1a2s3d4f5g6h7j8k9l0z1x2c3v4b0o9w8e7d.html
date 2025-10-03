@@ -138,8 +138,8 @@
         <div class="config-section">
             <h3>🔑 First Time Setup</h3>
             <p><strong>You'll need a special code to send messages to the app.</strong></p>
-            <p>When prompted, enter the GitHub token that was provided to you. This is like a password that allows you to update the app's messages.</p>
-            <p><em>Don't worry - this is secure and only you can use it!</em></p>
+            <p>When prompted, enter the GitHub token that was provided to you. </p>
+           <!-- <p><em>Don't worry - this is secure and only you can use it!</em></p> -->
         </div>
         
         <div class="current-message">
@@ -163,12 +163,12 @@
                 </select>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <div class="checkbox-group">
                     <input type="checkbox" id="show" checked>
                     <label for="show">✅ Show this message to listeners</label>
                 </div>
-            </div>
+            </div> -->
 
             <div class="button-group">
                 <button type="submit" class="btn-primary">📻 Send Message to App</button>
@@ -309,7 +309,7 @@
             
             const message = document.getElementById('message').value;
             const type = document.getElementById('type').value;
-            const show = document.getElementById('show').checked;
+            const show = true; // Always show messages to listeners
             
             if (!message.trim()) {
                 showStatus('❌ Please write a message to send to listeners', 'error');
