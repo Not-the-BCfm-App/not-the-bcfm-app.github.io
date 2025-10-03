@@ -1,6 +1,6 @@
 {
-  "message": "",
-  "type": "info",
-  "show": false,
-  "timestamp": "2025-10-03T07:26:46.910Z"
+  "message": "This is a test banner text\nIt's multi-line\nAnd it's left justified.\nThe Jaguar embraces and illustrates a feline sense of grace. Proof of its success is in how natural the XJ appears when slicing through the countryside.",
+  "type": "error",
+  "show": true,
+  "timestamp": "2025-10-03T08:26:47.950Z"
 }
