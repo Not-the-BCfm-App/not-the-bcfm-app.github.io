@@ -50,6 +50,10 @@
             height: 120px;
             resize: vertical;
         }
+        textarea::placeholder {
+            color: #999;
+            font-weight: 300;
+        }
         .button-group {
             display: flex;
             gap: 15px;
@@ -138,7 +142,6 @@
         <div class="config-section">
             <h3>🔑 Enter Your Access Code</h3>
             <p>When prompted, enter the GitHub token that was provided to you. </p>
-           <!-- <p><em>Don't worry - this is secure and only you can use it!</em></p> -->
         </div>
         
         <div class="current-message">
@@ -148,7 +151,7 @@
 
         <form id="messageForm">
             <div class="form-group">
-                <label for="message">📝 What message do you want to send to listeners?</label>
+                <label for="message">📝 What message do you want to send to users of the app?</label>
                 <textarea id="message" placeholder="e.g., Show delayed 30 mins, sorry" required></textarea>
             </div>
 
