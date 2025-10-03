@@ -1,6 +1,6 @@
 {
-  "message": "This is a multiline message saying hey, the downloads are currently at this place here:\n- one place\n- two place\n- three place",
-  "type": "success",
-  "show": true,
-  "timestamp": "2025-10-03T07:19:30.137Z"
+  "message": "",
+  "type": "info",
+  "show": false,
+  "timestamp": "2025-10-03T07:26:46.910Z"
 }
