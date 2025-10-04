@@ -141,7 +141,15 @@
         
         <div class="config-section">
             <h3>🔑 Enter Your Access Code</h3>
-            <p>When prompted, enter the GitHub token that was provided to you. </p>
+            <p>Use the access code provided to you. If it's already active, you'll see this field filled (hidden with dots).</p>
+            <div class="form-group">
+                <label for="tokenInput">Access code</label>
+                <input type="password" id="tokenInput" placeholder="Paste your access code here" autocomplete="off">
+                <small id="tokenStatus" style="display:block;margin-top:8px;color:#555"></small>
+                <div class="button-group" style="margin-top:10px;gap:10px;">
+                    <button type="button" id="applyTokenBtn" class="btn-secondary">Use this code</button>
+                </div>
+            </div>
         </div>
         
         <div class="current-message">
@@ -186,7 +194,7 @@
         const REPO_NAME = 'not-the-bcfm-app.github.io';
         const FILE_PATH = 'message.json';
         
-        // Try to load config from private repo, fallback to prompt
+        // Try to load config from private repo; otherwise rely on manual entry
         let GITHUB_TOKEN = null;
         
         // Try to load config from private repo first
@@ -201,24 +209,53 @@
                     if (tokenMatch) {
                         GITHUB_TOKEN = tokenMatch[1];
                         console.log('✅ Config loaded from private repo');
+                        // Reflect in UI (password field will mask it)
+                        const tokenInput = document.getElementById('tokenInput');
+                        const tokenStatus = document.getElementById('tokenStatus');
+                        if (tokenInput) tokenInput.value = GITHUB_TOKEN;
+                        if (tokenStatus) tokenStatus.textContent = 'Access code loaded (ready).';
                         return;
                     }
                 }
             } catch (error) {
                 console.log('⚠️ Could not load config from private repo:', error.message);
             }
-            
-            // Fallback to prompt
-            GITHUB_TOKEN = prompt('Please enter your special access code to send messages:');
+            // No prompt fallback — host can paste the code above
+            const tokenStatus = document.getElementById('tokenStatus');
+            if (tokenStatus) tokenStatus.textContent = 'Access code not set yet. Paste your code above and press "Use this code".';
         }
 
-        // Load current message status
+        // Load current message status (try GitHub API for fresh content, fallback to raw with cache-bust)
         async function loadCurrentMessage() {
             try {
-                const response = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`);
-                const data = await response.json();
-                
-                if (data.message) {
+                let data = null;
+
+                // Prefer GitHub API when token is available (avoids CDN cache)
+                if (GITHUB_TOKEN) {
+                    const apiResp = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}?t=${Date.now()}`, {
+                        headers: {
+                            'Authorization': `token ${GITHUB_TOKEN}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+
+                    if (apiResp.ok) {
+                        const fileData = await apiResp.json();
+                        if (fileData && fileData.content) {
+                            const decoded = decodeURIComponent(escape(atob(fileData.content)));
+                            data = JSON.parse(decoded);
+                        }
+                    }
+                }
+
+                // Fallback to raw URL with cache-busting param
+                if (!data) {
+                    const response = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`);
+                    if (!response.ok) throw new Error('Failed to fetch raw content');
+                    data = await response.json();
+                }
+
+                if (data && typeof data.message === 'string' && data.message.trim().length > 0 && data.show !== false) {
                     document.getElementById('currentStatus').innerHTML = `
                         <strong>📱 Message showing to listeners:</strong> "${data.message}"<br>
                         <strong>🎨 Type:</strong> ${data.type}<br>
@@ -312,9 +349,20 @@
             const message = document.getElementById('message').value;
             const type = document.getElementById('type').value;
             const show = true; // Always show messages to listeners
+            const tokenInputEl = document.getElementById('tokenInput');
+            const tokenFromInput = tokenInputEl ? tokenInputEl.value.trim() : '';
+            if (!GITHUB_TOKEN && tokenFromInput) {
+                GITHUB_TOKEN = tokenFromInput;
+                const tokenStatus = document.getElementById('tokenStatus');
+                if (tokenStatus) tokenStatus.textContent = 'Access code set for this session.';
+            }
             
             if (!message.trim()) {
                 showStatus('❌ Please write a message to send to listeners', 'error');
+                return;
+            }
+            if (!GITHUB_TOKEN) {
+                showStatus('❌ Please enter your access code above and press "Use this code"', 'error');
                 return;
             }
             
@@ -337,6 +385,21 @@
 
         // Clear button
         document.getElementById('clearBtn').addEventListener('click', clearMessage);
+
+        // Apply token button
+        document.getElementById('applyTokenBtn').addEventListener('click', function() {
+            const tokenInputEl = document.getElementById('tokenInput');
+            const tokenStatus = document.getElementById('tokenStatus');
+            const value = tokenInputEl ? tokenInputEl.value.trim() : '';
+            if (!value) {
+                if (tokenStatus) tokenStatus.textContent = 'Please paste your access code above.';
+                return;
+            }
+            GITHUB_TOKEN = value;
+            if (tokenStatus) tokenStatus.textContent = 'Access code set for this session.';
+            // Refresh current message using API when possible
+            loadCurrentMessage();
+        });
 
         // Initialize
         async function init() {
