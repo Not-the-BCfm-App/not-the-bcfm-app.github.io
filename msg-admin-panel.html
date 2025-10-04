@@ -451,6 +451,20 @@
         async function init() {
             await loadConfig();
             await loadCurrentMessage();
+            // Match token input width to the "Use this code" button
+            function resizeTokenInput() {
+                const input = document.getElementById('tokenInput');
+                const btn = document.getElementById('applyTokenBtn');
+                if (input && btn) {
+                    // Use the button's rendered width
+                    const btnWidth = btn.getBoundingClientRect().width;
+                    if (btnWidth > 0) {
+                        input.style.width = btnWidth + 'px';
+                    }
+                }
+            }
+            resizeTokenInput();
+            window.addEventListener('resize', resizeTokenInput);
         }
 
         init();
