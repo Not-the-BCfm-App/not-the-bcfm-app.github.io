@@ -159,7 +159,7 @@
         .container { padding: 28px; }
         h1 { margin-bottom: 18px; font-size: 2em; }
         .form-group { margin-bottom: 16px; }
-        input, textarea, select { padding: 12px; }
+        input, textarea, select { padding: 12px; box-sizing: border-box; max-width: 100%; }
         .button-group { gap: 10px; margin-top: 16px; }
         textarea { height: 100px; }
         .current-message { margin-bottom: 18px; }
@@ -170,7 +170,7 @@
             .container { padding: 16px; }
             h1 { font-size: 1.6em; margin-bottom: 12px; }
             .form-group { margin-bottom: 12px; }
-            input, textarea, select { padding: 10px; }
+            input, textarea, select { padding: 10px; box-sizing: border-box; max-width: 100%; }
             textarea { height: 90px; }
             .button-group { flex-direction: column; gap: 8px; }
             /* Make access code input/button full width on mobile */
@@ -424,6 +424,15 @@
                 await updateMessage(messageData);
                 showStatus('🎉 Message sent! Listeners will see it when they open the app.', 'success');
                 loadCurrentMessage();
+                // Ensure status and current message are visible after send
+                const statusEl = document.getElementById('status');
+                if (statusEl && statusEl.scrollIntoView) {
+                    statusEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                const currentEl = document.getElementById('currentStatus');
+                if (currentEl && currentEl.scrollIntoView) {
+                    currentEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
             } catch (error) {
                 showStatus(`❌ Could not send message: ${error.message}`, 'error');
             }
