@@ -138,6 +138,14 @@
             margin-top: 0;
             color: #856404;
         }
+        /* Make token input not full-width and button intrinsic width */
+        #tokenInput {
+            width: auto;
+            display: inline-block;
+        }
+        #applyTokenBtn {
+            flex: 0 0 auto;
+        }
         textarea.over-limit {
             border-color: #ffc107;
         }
@@ -145,6 +153,15 @@
             font-size: 12px;
             color: #666;
         }
+        /* Compact overrides to fit content above the fold */
+        .container { padding: 28px; }
+        h1 { margin-bottom: 18px; font-size: 2em; }
+        .form-group { margin-bottom: 16px; }
+        input, textarea, select { padding: 12px; }
+        .button-group { gap: 10px; margin-top: 16px; }
+        textarea { height: 100px; }
+        .current-message { margin-bottom: 18px; }
+        .config-section { padding: 12px; margin-bottom: 12px; }
     </style>
 </head>
 <body>
@@ -443,6 +460,13 @@
 
         if (messageEl) {
             messageEl.addEventListener('input', updateLineInfo);
+            messageEl.addEventListener('focus', function() {
+                // Ensure the form is fully visible when typing
+                const formEl = document.getElementById('messageForm');
+                if (formEl && formEl.scrollIntoView) {
+                    formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
             // Initialize on load
             updateLineInfo();
         }
