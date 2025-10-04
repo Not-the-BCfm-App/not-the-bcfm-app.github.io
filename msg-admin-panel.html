@@ -140,11 +140,13 @@
         }
         /* Make token input not full-width and button intrinsic width */
         #tokenInput {
-            width: auto;
+            width: 260px;
             display: inline-block;
+            box-sizing: border-box;
         }
         #applyTokenBtn {
             flex: 0 0 auto;
+            width: 260px;
         }
         textarea.over-limit {
             border-color: #ffc107;
@@ -162,6 +164,19 @@
         textarea { height: 100px; }
         .current-message { margin-bottom: 18px; }
         .config-section { padding: 12px; margin-bottom: 12px; }
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .container { padding: 16px; }
+            h1 { font-size: 1.6em; margin-bottom: 12px; }
+            .form-group { margin-bottom: 12px; }
+            input, textarea, select { padding: 10px; }
+            textarea { height: 90px; }
+            .button-group { flex-direction: column; gap: 8px; }
+            /* Make access code input/button full width on mobile */
+            #tokenInput, #applyTokenBtn { width: 100%; }
+            .current-message { margin-bottom: 12px; }
+        }
     </style>
 </head>
 <body>
