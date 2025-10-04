@@ -376,8 +376,21 @@
                 await updateMessage(emptyMessage);
                 showStatus('✅ Message removed! Listeners will no longer see it.', 'success');
                 loadCurrentMessage();
+                // Ensure status and current message are visible after remove
+                const statusEl = document.getElementById('status');
+                if (statusEl && statusEl.scrollIntoView) {
+                    statusEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                const currentEl = document.getElementById('currentStatus');
+                if (currentEl && currentEl.scrollIntoView) {
+                    currentEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
             } catch (error) {
                 showStatus(`❌ Could not remove message: ${error.message}`, 'error');
+                const statusEl = document.getElementById('status');
+                if (statusEl && statusEl.scrollIntoView) {
+                    statusEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
         }
 
