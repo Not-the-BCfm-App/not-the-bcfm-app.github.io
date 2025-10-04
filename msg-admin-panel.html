@@ -185,7 +185,7 @@
         
         <div class="config-section">
             <h3>🔑 Enter Your Access Code</h3>
-            <p>Use the access code provided to you. If it's already active, you'll see this field filled (hidden with dots).</p>
+            <p>Enter your access code. If one is already loaded, it appears below.</p>
             <div class="form-group">
                 <label for="tokenInput">Access code</label>
                 <input type="text" id="tokenInput" placeholder="Paste your access code here" autocomplete="off">
@@ -268,7 +268,7 @@
             }
             // No prompt fallback — host can paste the code above
             const tokenStatus = document.getElementById('tokenStatus');
-            if (tokenStatus) tokenStatus.textContent = 'Access code not set yet. Paste your code above and press "Use this code".';
+            if (tokenStatus) tokenStatus.textContent = 'Access code not set.';
         }
 
         // Load current message status (try GitHub API for fresh content, fallback to raw with cache-bust)
