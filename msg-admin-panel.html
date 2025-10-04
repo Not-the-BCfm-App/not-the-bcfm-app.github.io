@@ -106,6 +106,11 @@
             color: #0c5460;
             border: 1px solid #bee5eb;
         }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
         .current-message {
             background: #f8f9fa;
             padding: 20px;
@@ -132,6 +137,13 @@
         .config-section h3 {
             margin-top: 0;
             color: #856404;
+        }
+        textarea.over-limit {
+            border-color: #ffc107;
+        }
+        .text-hint {
+            font-size: 12px;
+            color: #666;
         }
     </style>
 </head>
@@ -161,6 +173,8 @@
             <div class="form-group">
                 <label for="message">📝 What message do you want to send to users of the app?</label>
                 <textarea id="message" placeholder="e.g., Show delayed 30 mins, sorry" required></textarea>
+                <div class="text-hint" id="messageHint">Lines: 1 • Up to ~4 lines recommended</div>
+                <div class="status warning" id="lineWarning" style="display:none; margin-top:10px;">⚠️ This is longer than ~4 lines and may overlap UI panels in the app.</div>
             </div>
 
             <div class="form-group">
@@ -400,6 +414,38 @@
             // Refresh current message using API when possible
             loadCurrentMessage();
         });
+
+        // Message line count and warning
+        const messageEl = document.getElementById('message');
+        const messageHintEl = document.getElementById('messageHint');
+        const lineWarningEl = document.getElementById('lineWarning');
+
+        function updateLineInfo() {
+            if (!messageEl) return;
+            const value = messageEl.value || '';
+            // Count lines by splitting on newlines; also estimate soft-wrap lines by length
+            const hardLines = value.split(/\r?\n/);
+            // Assume ~60 chars per line as a rough guide for wrapping in the app
+            const approxWrapLines = hardLines.reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / 60)), 0);
+            const lines = Math.max(hardLines.length, approxWrapLines);
+
+            if (messageHintEl) {
+                messageHintEl.textContent = `Lines: ${lines} • Up to ~4 lines recommended`;
+            }
+            if (lines > 4) {
+                if (lineWarningEl) lineWarningEl.style.display = 'block';
+                messageEl.classList.add('over-limit');
+            } else {
+                if (lineWarningEl) lineWarningEl.style.display = 'none';
+                messageEl.classList.remove('over-limit');
+            }
+        }
+
+        if (messageEl) {
+            messageEl.addEventListener('input', updateLineInfo);
+            // Initialize on load
+            updateLineInfo();
+        }
 
         // Initialize
         async function init() {
