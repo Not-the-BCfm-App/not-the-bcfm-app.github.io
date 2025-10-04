@@ -188,7 +188,10 @@
             <p>Use the access code provided to you. If it's already active, you'll see this field filled (hidden with dots).</p>
             <div class="form-group">
                 <label for="tokenInput">Access code</label>
-                <input type="password" id="tokenInput" placeholder="Paste your access code here" autocomplete="off">
+                <div style="position: relative; display: inline-block;">
+                    <input type="password" id="tokenInput" placeholder="Paste your access code here" autocomplete="off">
+                    <button type="button" id="toggleTokenVisibility" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 14px;">👁️</button>
+                </div>
                 <small id="tokenStatus" style="display:block;margin-top:8px;color:#555"></small>
                 <div class="button-group" style="margin-top:10px;gap:10px;">
                     <button type="button" id="applyTokenBtn" class="btn-secondary">Use this code</button>
@@ -303,13 +306,14 @@
 
                 if (data && typeof data.message === 'string' && data.message.trim().length > 0 && data.show !== false) {
                     document.getElementById('currentStatus').innerHTML = `
-                        <strong>📱 Message showing to listeners:</strong> "${data.message}"<br>
+                        <strong>📱 Latest message sent:</strong> "${data.message}"<br>
+                        <strong>📡 Status:</strong> May take a few moments to appear in the app<br>
                         <strong>🎨 Type:</strong> ${data.type}<br>
                         <strong>👀 Visible to listeners:</strong> ${data.show ? 'Yes' : 'No'}<br>
                         <strong>⏰ Last updated:</strong> ${new Date(data.timestamp).toLocaleString()}
                     `;
                 } else {
-                    document.getElementById('currentStatus').innerHTML = '📭 No message currently showing to listeners';
+                    document.getElementById('currentStatus').innerHTML = '📭 No message sent yet';
                 }
             } catch (error) {
                 document.getElementById('currentStatus').innerHTML = '❌ Unable to check current message - please try again';
@@ -441,6 +445,19 @@
         // Clear button
         document.getElementById('clearBtn').addEventListener('click', clearMessage);
 
+        // Toggle token visibility
+        document.getElementById('toggleTokenVisibility').addEventListener('click', function() {
+            const input = document.getElementById('tokenInput');
+            const toggle = document.getElementById('toggleTokenVisibility');
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                toggle.textContent = '👁️';
+            }
+        });
+
         // Apply token button
         document.getElementById('applyTokenBtn').addEventListener('click', function() {
             const tokenInputEl = document.getElementById('tokenInput');
@@ -450,8 +467,13 @@
                 if (tokenStatus) tokenStatus.textContent = 'Please paste your access code above.';
                 return;
             }
+            // Basic validation - GitHub tokens start with 'ghp_' or 'gho_' etc
+            if (!value.startsWith('ghp_') && !value.startsWith('gho_') && !value.startsWith('ghu_') && !value.startsWith('ghs_') && !value.startsWith('ghr_')) {
+                if (tokenStatus) tokenStatus.textContent = '⚠️ This doesn\'t look like a GitHub token. Please check your access code.';
+                return;
+            }
             GITHUB_TOKEN = value;
-            if (tokenStatus) tokenStatus.textContent = 'Access code set for this session.';
+            if (tokenStatus) tokenStatus.textContent = '✅ Access code set for this session.';
             // Refresh current message using API when possible
             loadCurrentMessage();
         });
