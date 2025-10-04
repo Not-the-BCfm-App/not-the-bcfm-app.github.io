@@ -1,6 +1,6 @@
 {
-  "message": "Show delayed 30 mins, sorry \nShow delayed 30 mins, sorry \nShow delayed 30 mins, sorry \nShow delayed 30 mins, sorry",
-  "type": "info",
+  "message": "Show delayed 30 mins, sorry",
+  "type": "warning",
   "show": true,
-  "timestamp": "2025-10-04T11:24:47.994Z"
+  "timestamp": "2025-10-04T11:35:23.965Z"
 }
