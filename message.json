@@ -1,6 +1,6 @@
 {
-  "message": "hello\nhello\nhello\nhello",
-  "type": "info",
+  "message": "hi",
+  "type": "error",
   "show": true,
-  "timestamp": "2025-10-04T12:00:32.592Z"
+  "timestamp": "2025-10-04T15:25:24.557Z"
 }
