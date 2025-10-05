@@ -422,6 +422,11 @@
             }
             if (!GITHUB_TOKEN) {
                 showStatus('❌ Please enter your access code above and press "Use this code"', 'error');
+                // Scroll to status to make error visible
+                const statusEl = document.getElementById('status');
+                if (statusEl && statusEl.scrollIntoView) {
+                    statusEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
                 return;
             }
             
