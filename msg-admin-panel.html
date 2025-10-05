@@ -205,8 +205,8 @@
             <div class="form-group">
                 <label for="message">📝 What message do you want to send to users of the app?</label>
                 <textarea id="message" placeholder="e.g., Show delayed 30 mins, sorry" required></textarea>
-                <div class="text-hint" id="messageHint">Lines: 1 • Up to ~4 lines recommended</div>
-                <div class="status warning" id="lineWarning" style="display:none; margin-top:10px;">⚠️ This is longer than ~4 lines on regular phones. It may still fit but could get close to overlapping UI panels.</div>
+                <div class="text-hint" id="messageHint">Lines: 1 • Up to ~6 lines recommended</div>
+                <div class="status warning" id="lineWarning" style="display:none; margin-top:10px;">⚠️ For phones, keep messages within ~75 words or ~375 characters. Longer messages may not fit.</div>
             </div>
 
             <div class="form-group">
@@ -486,6 +486,8 @@
             return 40;                    // tablets / desktop
         }
         let CHARS_PER_APP_LINE = computeCharsPerLine();
+        const MAX_WORDS = 75;
+        const MAX_CHARS = 375;
 
         function updateLineInfo() {
             if (!messageEl) return;
@@ -493,6 +495,8 @@
             // Count lines by splitting on newlines; estimate soft-wrap lines by
             // app's effective width (~22 chars per line from observation)
             const hardLines = value.split(/\r?\n/);
+            const words = value.trim().length ? value.trim().split(/\s+/).length : 0;
+            const chars = value.length;
             const approxWrapLines = hardLines.reduce((sum, line) => {
                 // Collapse multiple spaces to one for a more conservative estimate
                 const normalized = line.replace(/\s+/g, ' ');
@@ -501,9 +505,9 @@
             const lines = Math.max(hardLines.length, approxWrapLines);
 
             if (messageHintEl) {
-                messageHintEl.textContent = `Approx lines: ${lines} • ~${CHARS_PER_APP_LINE} chars/line • Max 4 recommended`;
+                messageHintEl.textContent = `Approx lines: ${lines} • ~${CHARS_PER_APP_LINE} chars/line • Max 6 recommended`;
             }
-            if (lines > 4) {
+            if (lines > 6 || words > MAX_WORDS || chars > MAX_CHARS) {
                 if (lineWarningEl) lineWarningEl.style.display = 'block';
                 messageEl.classList.add('over-limit');
             } else {
