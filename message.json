@@ -1,6 +1,6 @@
 {
-  "message": "",
-  "type": "info",
-  "show": false,
-  "timestamp": "2025-10-05T14:28:18.311Z"
+  "message": "hello, this is a message from the show",
+  "type": "success",
+  "show": true,
+  "timestamp": "2025-10-05T14:38:28.096Z"
 }
