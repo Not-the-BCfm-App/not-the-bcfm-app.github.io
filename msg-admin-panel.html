@@ -364,6 +364,17 @@
 
         // Clear message
         async function clearMessage() {
+            // Check if there's actually a message to remove
+            const currentStatus = document.getElementById('currentStatus');
+            if (currentStatus && currentStatus.textContent.includes('No message currently showing to listeners')) {
+                showStatus('ℹ️ There is no message to remove.', 'warning');
+                const statusEl = document.getElementById('status');
+                if (statusEl && statusEl.scrollIntoView) {
+                    statusEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                return;
+            }
+            
             const emptyMessage = {
                 message: "",
                 type: "info",
