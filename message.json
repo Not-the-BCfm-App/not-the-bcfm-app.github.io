@@ -1,6 +1,6 @@
 {
-  "message": "hello, this is a message from the show",
-  "type": "success",
+  "message": "hello, this is a message from the show\nThis is a line\nThis is a line\nThis is a line",
+  "type": "info",
   "show": true,
-  "timestamp": "2025-10-05T14:38:28.096Z"
+  "timestamp": "2025-10-05T14:41:57.271Z"
 }
