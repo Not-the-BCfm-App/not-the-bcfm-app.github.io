@@ -303,9 +303,9 @@
 
                 if (data && typeof data.message === 'string' && data.message.trim().length > 0 && data.show !== false) {
                     document.getElementById('currentStatus').innerHTML = `
-                        <strong>📱 Message showing to listeners:</strong> "${data.message}"<br>
+                        <strong>📱 Message:</strong> "${data.message}"<br>
                         <strong>🎨 Type:</strong> ${data.type}<br>
-                        <strong>👀 Visible to listeners:</strong> ${data.show ? 'Yes' : 'No'}<br>
+                        <strong>👀 Visible to users:</strong> ${data.show ? 'Yes' : 'No'}<br>
                         <strong>⏰ Last updated:</strong> ${new Date(data.timestamp).toLocaleString()}
                     `;
                 } else {
