@@ -1,6 +1,6 @@
 {
-  "message": "This is longer than ~4 lines on regular phones. It may still fit but could get close to. This is longer than ~4 lines on regular phones. It may still fit but could get close to. This is longer than ~4 lines on regular phones. It may still fit but could get close to This is extra text.",
+  "message": "",
   "type": "info",
-  "show": true,
-  "timestamp": "2025-10-05T15:08:03.127Z"
+  "show": false,
+  "timestamp": "2025-10-05T15:19:46.380Z"
 }
