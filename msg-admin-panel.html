@@ -476,7 +476,7 @@
             const tokenStatus = document.getElementById('tokenStatus');
             const value = tokenInputEl ? tokenInputEl.value.trim() : '';
             if (!value) {
-                if (tokenStatus) tokenStatus.textContent = 'Please paste your access code above.';
+                if (tokenStatus) tokenStatus.textContent = 'Please paste your access code above and tap the button below.';
                 return;
             }
             GITHUB_TOKEN = value;
