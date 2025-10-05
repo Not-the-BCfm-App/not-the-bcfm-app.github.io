@@ -1,6 +1,6 @@
 {
-  "message": "Hello\nhi\nok?\nAll right \nok?\nyou ok?",
-  "type": "error",
+  "message": "This is longer than ~4 lines on regular phones. It may still fit but could get close to. This is longer than ~4 lines on regular phones. It may still fit but could get close to. This is longer than ~4 lines on regular phones. It may still fit but could get close to",
+  "type": "warning",
   "show": true,
-  "timestamp": "2025-10-05T14:57:43.633Z"
+  "timestamp": "2025-10-05T15:03:32.120Z"
 }
