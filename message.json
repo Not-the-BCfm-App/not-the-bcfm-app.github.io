@@ -1,6 +1,6 @@
 {
-  "message": "This is a test message.",
+  "message": "",
   "type": "info",
-  "show": true,
-  "timestamp": "2025-10-05T16:49:26.467Z"
+  "show": false,
+  "timestamp": "2025-10-05T17:00:06.845Z"
 }
