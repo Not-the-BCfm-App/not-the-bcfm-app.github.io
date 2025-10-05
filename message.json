@@ -1,6 +1,6 @@
 {
-  "message": "",
-  "type": "info",
-  "show": false,
-  "timestamp": "2025-10-05T10:20:55.685Z"
+  "message": "This is a message from the studio.\nDownloads available now!",
+  "type": "success",
+  "show": true,
+  "timestamp": "2025-10-05T10:21:42.640Z"
 }
