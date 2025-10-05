@@ -1,6 +1,6 @@
 {
-  "message": "Hello\nhi\nok?\nAll right \nok?",
-  "type": "warning",
+  "message": "Hello\nhi\nok?\nAll right \nok?\nyou ok?",
+  "type": "error",
   "show": true,
-  "timestamp": "2025-10-05T14:56:25.854Z"
+  "timestamp": "2025-10-05T14:57:43.633Z"
 }
