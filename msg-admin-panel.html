@@ -473,18 +473,30 @@
         const messageEl = document.getElementById('message');
         const messageHintEl = document.getElementById('messageHint');
         const lineWarningEl = document.getElementById('lineWarning');
+        // Adaptive chars-per-line: phones ~22, tablets/desktop higher
+        function computeCharsPerLine() {
+            const w = window.innerWidth || 1024;
+            if (w <= 480) return 22;      // phones
+            if (w <= 768) return 30;      // small tablets
+            return 40;                    // tablets / desktop
+        }
+        let CHARS_PER_APP_LINE = computeCharsPerLine();
 
         function updateLineInfo() {
             if (!messageEl) return;
             const value = messageEl.value || '';
-            // Count lines by splitting on newlines; also estimate soft-wrap lines by length
+            // Count lines by splitting on newlines; estimate soft-wrap lines by
+            // app's effective width (~22 chars per line from observation)
             const hardLines = value.split(/\r?\n/);
-            // Assume ~60 chars per line as a rough guide for wrapping in the app
-            const approxWrapLines = hardLines.reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / 60)), 0);
+            const approxWrapLines = hardLines.reduce((sum, line) => {
+                // Collapse multiple spaces to one for a more conservative estimate
+                const normalized = line.replace(/\s+/g, ' ');
+                return sum + Math.max(1, Math.ceil(normalized.length / CHARS_PER_APP_LINE));
+            }, 0);
             const lines = Math.max(hardLines.length, approxWrapLines);
 
             if (messageHintEl) {
-                messageHintEl.textContent = `Lines: ${lines} • Up to ~4 lines recommended`;
+                messageHintEl.textContent = `Approx lines: ${lines} • ~${CHARS_PER_APP_LINE} chars/line • Max 4 recommended`;
             }
             if (lines > 4) {
                 if (lineWarningEl) lineWarningEl.style.display = 'block';
@@ -507,6 +519,12 @@
             // Initialize on load
             updateLineInfo();
         }
+
+        // Recompute chars-per-line on resize and refresh hint
+        window.addEventListener('resize', () => {
+            CHARS_PER_APP_LINE = computeCharsPerLine();
+            updateLineInfo();
+        });
 
         // Initialize
         async function init() {
