@@ -745,21 +745,83 @@
                 const searchTerm = e.target.value.toLowerCase();
                 const emojiButtons = emojiGrid.querySelectorAll('.emoji-btn');
                 
+                // Country name to flag emoji mapping
+                const countryFlags = {
+                    'palestine': '🇵🇸', 'israel': '🇮🇱', 'usa': '🇺🇸', 'united states': '🇺🇸',
+                    'uk': '🇬🇧', 'united kingdom': '🇬🇧', 'britain': '🇬🇧', 'france': '🇫🇷',
+                    'germany': '🇩🇪', 'spain': '🇪🇸', 'italy': '🇮🇹', 'canada': '🇨🇦',
+                    'australia': '🇦🇺', 'japan': '🇯🇵', 'china': '🇨🇳', 'russia': '🇷🇺',
+                    'india': '🇮🇳', 'brazil': '🇧🇷', 'mexico': '🇲🇽', 'south korea': '🇰🇷',
+                    'north korea': '🇰🇵', 'iran': '🇮🇷', 'iraq': '🇮🇶', 'syria': '🇸🇾',
+                    'lebanon': '🇱🇧', 'jordan': '🇯🇴', 'egypt': '🇪🇬', 'saudi arabia': '🇸🇦',
+                    'turkey': '🇹🇷', 'greece': '🇬🇷', 'ukraine': '🇺🇦', 'poland': '🇵🇱',
+                    'netherlands': '🇳🇱', 'belgium': '🇧🇪', 'switzerland': '🇨🇭',
+                    'austria': '🇦🇹', 'sweden': '🇸🇪', 'norway': '🇳🇴', 'denmark': '🇩🇰',
+                    'finland': '🇫🇮', 'ireland': '🇮🇪', 'portugal': '🇵🇹', 'czech republic': '🇨🇿',
+                    'hungary': '🇭🇺', 'romania': '🇷🇴', 'bulgaria': '🇧🇬', 'croatia': '🇭🇷',
+                    'serbia': '🇷🇸', 'slovenia': '🇸🇮', 'slovakia': '🇸🇰', 'lithuania': '🇱🇹',
+                    'latvia': '🇱🇻', 'estonia': '🇪🇪', 'south africa': '🇿🇦', 'nigeria': '🇳🇬',
+                    'kenya': '🇰🇪', 'ethiopia': '🇪🇹', 'morocco': '🇲🇦', 'algeria': '🇩🇿',
+                    'tunisia': '🇹🇳', 'libya': '🇱🇾', 'sudan': '🇸🇩', 'ghana': '🇬🇭',
+                    'senegal': '🇸🇳', 'mali': '🇲🇱', 'burkina faso': '🇧🇫', 'niger': '🇳🇪',
+                    'chad': '🇹🇩', 'cameroon': '🇨🇲', 'central african republic': '🇨🇫',
+                    'congo': '🇨🇬', 'democratic republic of congo': '🇨🇩', 'angola': '🇦🇴',
+                    'zambia': '🇿🇲', 'zimbabwe': '🇿🇼', 'botswana': '🇧🇼', 'namibia': '🇳🇦',
+                    'lesotho': '🇱🇸', 'swaziland': '🇸🇿', 'madagascar': '🇲🇬', 'mauritius': '🇲🇺',
+                    'seychelles': '🇸🇨', 'comoros': '🇰🇲', 'djibouti': '🇩🇯', 'somalia': '🇸🇴',
+                    'eritrea': '🇪🇷', 'ethiopia': '🇪🇹', 'uganda': '🇺🇬', 'tanzania': '🇹🇿',
+                    'rwanda': '🇷🇼', 'burundi': '🇧🇮', 'malawi': '🇲🇼', 'mozambique': '🇲🇿'
+                };
+                
                 emojiButtons.forEach(btn => {
                     const emoji = btn.textContent;
-                    const isVisible = emoji.includes(searchTerm) || 
-                                    (searchTerm === 'flag' && emoji.match(/[\u{1F1E6}-\u{1F1FF}]/u)) ||
-                                    (searchTerm === 'heart' && emoji.includes('❤️')) ||
-                                    (searchTerm === 'smile' && (emoji.includes('😊') || emoji.includes('😄') || emoji.includes('😃'))) ||
-                                    (searchTerm === 'thumbs' && (emoji.includes('👍') || emoji.includes('👎'))) ||
-                                    (searchTerm === 'hand' && (emoji.includes('👋') || emoji.includes('✋') || emoji.includes('🤚'))) ||
-                                    (searchTerm === 'star' && emoji.includes('⭐')) ||
-                                    (searchTerm === 'fire' && emoji.includes('🔥')) ||
-                                    (searchTerm === 'party' && emoji.includes('🎉')) ||
-                                    (searchTerm === 'check' && emoji.includes('✅')) ||
-                                    (searchTerm === 'cross' && emoji.includes('❌')) ||
-                                    (searchTerm === 'warning' && emoji.includes('⚠️')) ||
-                                    (searchTerm === 'info' && emoji.includes('ℹ️'));
+                    let isVisible = false;
+                    
+                    // Direct emoji match
+                    if (emoji.includes(searchTerm)) {
+                        isVisible = true;
+                    }
+                    // Country name search
+                    else if (countryFlags[searchTerm] && emoji === countryFlags[searchTerm]) {
+                        isVisible = true;
+                    }
+                    // Keyword matches
+                    else if (searchTerm === 'flag' && emoji.match(/[\u{1F1E6}-\u{1F1FF}]/u)) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'heart' && emoji.includes('❤️')) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'smile' && (emoji.includes('😊') || emoji.includes('😄') || emoji.includes('😃'))) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'thumbs' && (emoji.includes('👍') || emoji.includes('👎'))) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'hand' && (emoji.includes('👋') || emoji.includes('✋') || emoji.includes('🤚'))) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'star' && emoji.includes('⭐')) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'fire' && emoji.includes('🔥')) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'party' && emoji.includes('🎉')) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'check' && emoji.includes('✅')) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'cross' && emoji.includes('❌')) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'warning' && emoji.includes('⚠️')) {
+                        isVisible = true;
+                    }
+                    else if (searchTerm === 'info' && emoji.includes('ℹ️')) {
+                        isVisible = true;
+                    }
                     
                     btn.style.display = isVisible ? 'block' : 'none';
                 });
