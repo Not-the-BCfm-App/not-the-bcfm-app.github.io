@@ -1,6 +1,6 @@
 {
-  "message": "🇯🇴 This is a test message, happy Wednesday evening!🙂",
-  "type": "info",
+  "message": "🇯🇴 This is a test message sent by the developer Nick. \nHappy Wednesday evening!🙂",
+  "type": "success",
   "show": true,
-  "timestamp": "2025-10-08T17:37:16.017Z"
+  "timestamp": "2025-10-08T18:00:46.354Z"
 }
