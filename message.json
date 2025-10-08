@@ -1,6 +1,6 @@
 {
-  "message": "",
-  "type": "info",
-  "show": false,
-  "timestamp": "2025-10-08T18:33:17.480Z"
+  "message": "Another test 🇵🇸",
+  "type": "warning",
+  "show": true,
+  "timestamp": "2025-10-08T18:38:24.474Z"
 }
