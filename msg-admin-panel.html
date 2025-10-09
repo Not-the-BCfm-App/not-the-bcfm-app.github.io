@@ -740,91 +740,121 @@
                 emojiGrid.appendChild(emojiBtn);
             });
 
-            // Emoji search functionality
-            emojiSearch.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
+            // API-based emoji search functionality
+            let searchTimeout;
+            let isLoading = false;
+            
+            // Debounced search function
+            function debouncedSearch(query) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    performEmojiSearch(query);
+                }, 300);
+            }
+            
+            // API search function
+            async function searchEmojisAPI(query) {
+                if (!query.trim()) {
+                    return null; // Show all emojis
+                }
+                
+                try {
+                    // Try multiple API endpoints for better results
+                    const apis = [
+                        // Emojify API (no auth required)
+                        `https://emojify.info/api/emoji?search=${encodeURIComponent(query)}`,
+                        // GitHub Emoji API (fallback)
+                        `https://api.github.com/emojis`
+                    ];
+                    
+                    for (const apiUrl of apis) {
+                        try {
+                            const response = await fetch(apiUrl);
+                            if (!response.ok) continue;
+                            
+                            const data = await response.json();
+                            
+                            if (apiUrl.includes('emojify')) {
+                                // Emojify API returns emoji objects
+                                return data.map(emoji => emoji.character || emoji.emoji);
+                            } else {
+                                // GitHub API returns name->url mapping
+                                const matchingNames = Object.keys(data)
+                                    .filter(name => name.toLowerCase().includes(query.toLowerCase()));
+                                return matchingNames;
+                            }
+                        } catch (apiError) {
+                            console.log(`API ${apiUrl} failed:`, apiError);
+                            continue;
+                        }
+                    }
+                    
+                    return null;
+                } catch (error) {
+                    console.log('All API searches failed, falling back to local search:', error);
+                    return null;
+                }
+            }
+            
+            // Perform the actual search
+            async function performEmojiSearch(query) {
+                if (isLoading) return;
+                
                 const emojiButtons = emojiGrid.querySelectorAll('.emoji-btn');
                 
-                // Country name to flag emoji mapping
-                const countryFlags = {
-                    'palestine': '🇵🇸', 'israel': '🇮🇱', 'usa': '🇺🇸', 'united states': '🇺🇸',
-                    'uk': '🇬🇧', 'united kingdom': '🇬🇧', 'britain': '🇬🇧', 'france': '🇫🇷',
-                    'germany': '🇩🇪', 'spain': '🇪🇸', 'italy': '🇮🇹', 'canada': '🇨🇦',
-                    'australia': '🇦🇺', 'japan': '🇯🇵', 'china': '🇨🇳', 'russia': '🇷🇺',
-                    'india': '🇮🇳', 'brazil': '🇧🇷', 'mexico': '🇲🇽', 'south korea': '🇰🇷',
-                    'north korea': '🇰🇵', 'iran': '🇮🇷', 'iraq': '🇮🇶', 'syria': '🇸🇾',
-                    'lebanon': '🇱🇧', 'jordan': '🇯🇴', 'egypt': '🇪🇬', 'saudi arabia': '🇸🇦',
-                    'turkey': '🇹🇷', 'greece': '🇬🇷', 'ukraine': '🇺🇦', 'poland': '🇵🇱',
-                    'netherlands': '🇳🇱', 'belgium': '🇧🇪', 'switzerland': '🇨🇭',
-                    'austria': '🇦🇹', 'sweden': '🇸🇪', 'norway': '🇳🇴', 'denmark': '🇩🇰',
-                    'finland': '🇫🇮', 'ireland': '🇮🇪', 'portugal': '🇵🇹', 'czech republic': '🇨🇿',
-                    'hungary': '🇭🇺', 'romania': '🇷🇴', 'bulgaria': '🇧🇬', 'croatia': '🇭🇷',
-                    'serbia': '🇷🇸', 'slovenia': '🇸🇮', 'slovakia': '🇸🇰', 'lithuania': '🇱🇹',
-                    'latvia': '🇱🇻', 'estonia': '🇪🇪', 'south africa': '🇿🇦', 'nigeria': '🇳🇬',
-                    'kenya': '🇰🇪', 'ethiopia': '🇪🇹', 'morocco': '🇲🇦', 'algeria': '🇩🇿',
-                    'tunisia': '🇹🇳', 'libya': '🇱🇾', 'sudan': '🇸🇩', 'ghana': '🇬🇭',
-                    'senegal': '🇸🇳', 'mali': '🇲🇱', 'burkina faso': '🇧🇫', 'niger': '🇳🇪',
-                    'chad': '🇹🇩', 'cameroon': '🇨🇲', 'central african republic': '🇨🇫',
-                    'congo': '🇨🇬', 'democratic republic of congo': '🇨🇩', 'angola': '🇦🇴',
-                    'zambia': '🇿🇲', 'zimbabwe': '🇿🇼', 'botswana': '🇧🇼', 'namibia': '🇳🇦',
-                    'lesotho': '🇱🇸', 'swaziland': '🇸🇿', 'madagascar': '🇲🇬', 'mauritius': '🇲🇺',
-                    'seychelles': '🇸🇨', 'comoros': '🇰🇲', 'djibouti': '🇩🇯', 'somalia': '🇸🇴',
-                    'eritrea': '🇪🇷', 'ethiopia': '🇪🇹', 'uganda': '🇺🇬', 'tanzania': '🇹🇿',
-                    'rwanda': '🇷🇼', 'burundi': '🇧🇮', 'malawi': '🇲🇼', 'mozambique': '🇲🇿'
-                };
+                if (!query.trim()) {
+                    // Show all emojis
+                    emojiButtons.forEach(btn => {
+                        btn.style.display = 'block';
+                    });
+                    return;
+                }
                 
-                emojiButtons.forEach(btn => {
-                    const emoji = btn.textContent;
-                    let isVisible = false;
+                // Show loading state
+                isLoading = true;
+                emojiSearch.placeholder = 'Searching...';
+                
+                try {
+                    // Try API search first
+                    const apiResults = await searchEmojisAPI(query);
                     
-                    // Direct emoji match
-                    if (emoji.includes(searchTerm)) {
-                        isVisible = true;
+                    if (apiResults && apiResults.length > 0) {
+                        // Filter based on API results
+                        emojiButtons.forEach(btn => {
+                            const emoji = btn.textContent;
+                            const isVisible = apiResults.some(result => 
+                                result === emoji || 
+                                result.toLowerCase().includes(emoji) ||
+                                emoji.includes(result)
+                            );
+                            btn.style.display = isVisible ? 'block' : 'none';
+                        });
+                    } else {
+                        // Fallback to local search
+                        const searchTerm = query.toLowerCase();
+                        emojiButtons.forEach(btn => {
+                            const emoji = btn.textContent;
+                            const isVisible = emoji.includes(searchTerm) || 
+                                            emoji.toLowerCase().includes(searchTerm);
+                            btn.style.display = isVisible ? 'block' : 'none';
+                        });
                     }
-                    // Country name search
-                    else if (countryFlags[searchTerm] && emoji === countryFlags[searchTerm]) {
-                        isVisible = true;
-                    }
-                    // Keyword matches
-                    else if (searchTerm === 'flag' && emoji.match(/[\u{1F1E6}-\u{1F1FF}]/u)) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'heart' && emoji.includes('❤️')) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'smile' && (emoji.includes('😊') || emoji.includes('😄') || emoji.includes('😃'))) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'thumbs' && (emoji.includes('👍') || emoji.includes('👎'))) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'hand' && (emoji.includes('👋') || emoji.includes('✋') || emoji.includes('🤚'))) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'star' && emoji.includes('⭐')) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'fire' && emoji.includes('🔥')) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'party' && emoji.includes('🎉')) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'check' && emoji.includes('✅')) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'cross' && emoji.includes('❌')) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'warning' && emoji.includes('⚠️')) {
-                        isVisible = true;
-                    }
-                    else if (searchTerm === 'info' && emoji.includes('ℹ️')) {
-                        isVisible = true;
-                    }
-                    
-                    btn.style.display = isVisible ? 'block' : 'none';
-                });
+                } catch (error) {
+                    console.error('Search error:', error);
+                    // Show all emojis on error
+                    emojiButtons.forEach(btn => {
+                        btn.style.display = 'block';
+                    });
+                } finally {
+                    isLoading = false;
+                    emojiSearch.placeholder = 'Search emojis...';
+                }
+            }
+            
+            // Search input event listener with debouncing
+            emojiSearch.addEventListener('input', (e) => {
+                const query = e.target.value;
+                debouncedSearch(query);
             });
 
             // Toggle emoji picker
