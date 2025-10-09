@@ -257,7 +257,7 @@
         <h1>📻 NTBCfmPS App Message Admin</h1>
         
         <div class="config-section">
-            <h3>🔑 Enter Your Access Code</h3>
+            <h3>🔑 Enter Your Access Code x</h3>
             <p>Enter your access code and then tap or click the "Use this code" button. If one is already loaded, it appears below.</p>
             <div class="form-group">
                 <label for="tokenInput">Access code</label>
@@ -1014,6 +1014,7 @@
                         };
                         
                         // Filter based on API results
+                        let visibleCount = 0;
                         emojiButtons.forEach(btn => {
                             const emoji = btn.textContent;
                             let isVisible = false;
@@ -1021,9 +1022,17 @@
                             // Check if emoji matches any API result directly
                             if (apiResults.some(result => result === emoji)) {
                                 isVisible = true;
+                                console.log('Direct match:', emoji);
                             }
                             // Check if emoji matches mapped emoji from API result
-                            else if (apiResults.some(result => nameToEmoji[result] === emoji)) {
+                            else if (apiResults.some(result => {
+                                const mappedEmoji = nameToEmoji[result];
+                                if (mappedEmoji === emoji) {
+                                    console.log('Mapped match:', result, '->', emoji);
+                                    return true;
+                                }
+                                return false;
+                            })) {
                                 isVisible = true;
                             }
                             // Check if API result name contains emoji or vice versa
@@ -1032,10 +1041,14 @@
                                 emoji.toLowerCase().includes(result.toLowerCase())
                             )) {
                                 isVisible = true;
+                                console.log('Text match:', result, '->', emoji);
                             }
                             
+                            if (isVisible) visibleCount++;
                             btn.style.display = isVisible ? 'block' : 'none';
                         });
+                        
+                        console.log('Visible emojis:', visibleCount, 'out of', emojiButtons.length);
                     } else {
                         console.log('No API results, using local search');
                         // Fallback to local search
