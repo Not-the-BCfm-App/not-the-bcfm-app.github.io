@@ -1,6 +1,6 @@
 {
-  "message": "Testing message banner 😃",
-  "type": "info",
+  "message": "Testing the new message banner 😃",
+  "type": "success",
   "show": true,
-  "timestamp": "2025-10-09T10:36:12.774Z"
+  "timestamp": "2025-10-09T13:01:13.828Z"
 }
