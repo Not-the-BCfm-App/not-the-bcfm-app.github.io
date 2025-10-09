@@ -752,58 +752,103 @@
                 }, 300);
             }
             
-            // API search function
+            // Enhanced local search function
+            function searchEmojisLocal(query) {
+                const searchTerm = query.toLowerCase();
+                const emojiButtons = emojiGrid.querySelectorAll('.emoji-btn');
+                const results = [];
+                
+                // Enhanced keyword mapping for better local search
+                const keywordMap = {
+                    'shrug': ['🤷', '🤷‍♂️', '🤷‍♀️'],
+                    'ok': ['👌', '👍', '✅'],
+                    'palestine': ['🇵🇸'],
+                    'israel': ['🇮🇱'],
+                    'usa': ['🇺🇸'],
+                    'uk': ['🇬🇧'],
+                    'france': ['🇫🇷'],
+                    'germany': ['🇩🇪'],
+                    'spain': ['🇪🇸'],
+                    'italy': ['🇮🇹'],
+                    'canada': ['🇨🇦'],
+                    'australia': ['🇦🇺'],
+                    'japan': ['🇯🇵'],
+                    'china': ['🇨🇳'],
+                    'russia': ['🇷🇺'],
+                    'ukraine': ['🇺🇦'],
+                    'thinking': ['🤔'],
+                    'love': ['❤️', '💕', '💖', '💗', '💘'],
+                    'heart': ['❤️', '💕', '💖', '💗', '💘'],
+                    'smile': ['😊', '😄', '😃', '😁', '😆'],
+                    'laugh': ['😂', '🤣', '😆', '😄'],
+                    'cry': ['😢', '😭', '😿'],
+                    'angry': ['😠', '😡', '🤬'],
+                    'sad': ['😞', '😔', '😢'],
+                    'surprised': ['😮', '😯', '😲', '🤯'],
+                    'confused': ['😕', '🤔', '😵'],
+                    'sleep': ['😴', '💤'],
+                    'sick': ['🤒', '🤧', '😷', '🤢'],
+                    'money': ['💰', '💵', '💸', '💳'],
+                    'food': ['🍕', '🍔', '🍟', '🌮', '🌯'],
+                    'drink': ['🍺', '🍷', '☕', '🥤'],
+                    'weather': ['☀️', '⛅', '🌧️', '⛈️', '❄️'],
+                    'animal': ['🐶', '🐱', '🐭', '🐹', '🐰'],
+                    'transport': ['🚗', '✈️', '🚂', '🚌', '🚕'],
+                    'sport': ['⚽', '🏀', '🎾', '🏈', '⚾'],
+                    'music': ['🎵', '🎶', '🎸', '🎹', '🎺'],
+                    'celebration': ['🎉', '🎊', '🎈', '🎂'],
+                    'time': ['⏰', '🕐', '⏱️', '⏲️'],
+                    'phone': ['📱', '📞', '☎️'],
+                    'computer': ['💻', '🖥️', '⌨️', '🖱️'],
+                    'book': ['📚', '📖', '📝', '📄'],
+                    'game': ['🎮', '🕹️', '🎯', '🎲'],
+                    'art': ['🎨', '🖼️', '🎭', '🎪'],
+                    'nature': ['🌳', '🌸', '🌺', '🌻', '🌹'],
+                    'space': ['🌙', '⭐', '🌍', '🌎', '🌏'],
+                    'holiday': ['🎄', '🎃', '🎂', '🎁'],
+                    'flag': ['🏁', '🚩', '🏳️', '🏴']
+                };
+                
+                // Check keyword mapping first
+                if (keywordMap[searchTerm]) {
+                    return keywordMap[searchTerm];
+                }
+                
+                // Fallback to direct emoji matching
+                emojiButtons.forEach(btn => {
+                    const emoji = btn.textContent;
+                    if (emoji.toLowerCase().includes(searchTerm) || 
+                        searchTerm.includes(emoji.toLowerCase())) {
+                        results.push(emoji);
+                    }
+                });
+                
+                return results;
+            }
+            
+            // API search function (simplified for now)
             async function searchEmojisAPI(query) {
                 if (!query.trim()) {
                     return null; // Show all emojis
                 }
                 
-                try {
-                    // Try multiple API endpoints for better results
-                    const apis = [
-                        // Emojify API (no auth required)
-                        `https://emojify.info/api/emoji?search=${encodeURIComponent(query)}`,
-                        // GitHub Emoji API (fallback)
-                        `https://api.github.com/emojis`
-                    ];
-                    
-                    for (const apiUrl of apis) {
-                        try {
-                            const response = await fetch(apiUrl);
-                            if (!response.ok) continue;
-                            
-                            const data = await response.json();
-                            
-                            if (apiUrl.includes('emojify')) {
-                                // Emojify API returns emoji objects
-                                return data.map(emoji => emoji.character || emoji.emoji);
-                            } else {
-                                // GitHub API returns name->url mapping
-                                const matchingNames = Object.keys(data)
-                                    .filter(name => name.toLowerCase().includes(query.toLowerCase()));
-                                return matchingNames;
-                            }
-                        } catch (apiError) {
-                            console.log(`API ${apiUrl} failed:`, apiError);
-                            continue;
-                        }
-                    }
-                    
-                    return null;
-                } catch (error) {
-                    console.log('All API searches failed, falling back to local search:', error);
-                    return null;
-                }
+                // For now, use local search as primary method
+                // TODO: Implement actual API calls when APIs are more reliable
+                console.log('Using local search for:', query);
+                return searchEmojisLocal(query);
             }
             
             // Perform the actual search
             async function performEmojiSearch(query) {
+                console.log('Performing search for:', query);
                 if (isLoading) return;
                 
                 const emojiButtons = emojiGrid.querySelectorAll('.emoji-btn');
+                console.log('Found emoji buttons:', emojiButtons.length);
                 
                 if (!query.trim()) {
                     // Show all emojis
+                    console.log('Empty query, showing all emojis');
                     emojiButtons.forEach(btn => {
                         btn.style.display = 'block';
                     });
@@ -817,8 +862,10 @@
                 try {
                     // Try API search first
                     const apiResults = await searchEmojisAPI(query);
+                    console.log('API results:', apiResults);
                     
                     if (apiResults && apiResults.length > 0) {
+                        console.log('Using API results');
                         // Filter based on API results
                         emojiButtons.forEach(btn => {
                             const emoji = btn.textContent;
@@ -830,6 +877,7 @@
                             btn.style.display = isVisible ? 'block' : 'none';
                         });
                     } else {
+                        console.log('No API results, using local search');
                         // Fallback to local search
                         const searchTerm = query.toLowerCase();
                         emojiButtons.forEach(btn => {
@@ -854,6 +902,7 @@
             // Search input event listener with debouncing
             emojiSearch.addEventListener('input', (e) => {
                 const query = e.target.value;
+                console.log('Search input:', query);
                 debouncedSearch(query);
             });
 
