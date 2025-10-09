@@ -325,30 +325,9 @@
         // Try to load config from private repo; otherwise rely on manual entry
         let GITHUB_TOKEN = null;
         
-        // Try to load config from private repo first
+        // Load config (simplified - no external config file)
         async function loadConfig() {
-            try {
-                // Try to load from private repo (replace with your private repo)
-                const configResponse = await fetch('https://raw.githubusercontent.com/NickPax/admin-config/main/config.js');
-                if (configResponse.ok) {
-                    const configText = await configResponse.text();
-                    // Extract token from config
-                    const tokenMatch = configText.match(/window\.GITHUB_TOKEN\s*=\s*['"]([^'"]+)['"]/);
-                    if (tokenMatch) {
-                        GITHUB_TOKEN = tokenMatch[1];
-                        console.log('✅ Config loaded from private repo');
-                        // Reflect in UI (password field will mask it)
-                        const tokenInput = document.getElementById('tokenInput');
-                        const tokenStatus = document.getElementById('tokenStatus');
-                        if (tokenInput) tokenInput.value = GITHUB_TOKEN;
-                        if (tokenStatus) tokenStatus.textContent = 'Access code loaded (ready).';
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.log('⚠️ Could not load config from private repo (this is normal):', error.message);
-            }
-            // No prompt fallback — host can paste the code above
+            // No external config loading - host enters token manually
             const tokenStatus = document.getElementById('tokenStatus');
             if (tokenStatus) tokenStatus.textContent = 'Access code not set.';
         }
@@ -900,14 +879,161 @@
                     
                     if (apiResults && apiResults.length > 0) {
                         console.log('Using API results');
+                        
+                        // Create mapping from GitHub emoji names to actual emojis
+                        const nameToEmoji = {
+                            'shrug': '🤷',
+                            'man_shrugging': '🤷‍♂️', 
+                            'woman_shrugging': '🤷‍♀️',
+                            'thinking': '🤔',
+                            'thinking_face': '🤔',
+                            'ok': '👌',
+                            'ok_hand': '👌',
+                            'thumbsup': '👍',
+                            'thumbs_down': '👎',
+                            'heart': '❤️',
+                            'red_heart': '❤️',
+                            'smile': '😊',
+                            'smiley': '😃',
+                            'laughing': '😆',
+                            'joy': '😂',
+                            'cry': '😢',
+                            'sob': '😭',
+                            'angry': '😠',
+                            'rage': '😡',
+                            'sad': '😞',
+                            'disappointed': '😔',
+                            'surprised': '😮',
+                            'open_mouth': '😯',
+                            'confused': '😕',
+                            'thinking_face': '🤔',
+                            'sleep': '😴',
+                            'zzz': '💤',
+                            'sick': '🤒',
+                            'sneezing_face': '🤧',
+                            'mask': '😷',
+                            'money': '💰',
+                            'dollar': '💵',
+                            'money_with_wings': '💸',
+                            'credit_card': '💳',
+                            'food': '🍕',
+                            'pizza': '🍕',
+                            'hamburger': '🍔',
+                            'fries': '🍟',
+                            'taco': '🌮',
+                            'burrito': '🌯',
+                            'drink': '🍺',
+                            'beer': '🍺',
+                            'wine': '🍷',
+                            'coffee': '☕',
+                            'weather': '☀️',
+                            'sunny': '☀️',
+                            'partly_sunny': '⛅',
+                            'rain': '🌧️',
+                            'thunder': '⛈️',
+                            'snow': '❄️',
+                            'animal': '🐶',
+                            'dog': '🐶',
+                            'cat': '🐱',
+                            'mouse': '🐭',
+                            'hamster': '🐹',
+                            'rabbit': '🐰',
+                            'transport': '🚗',
+                            'car': '🚗',
+                            'airplane': '✈️',
+                            'train': '🚂',
+                            'bus': '🚌',
+                            'taxi': '🚕',
+                            'sport': '⚽',
+                            'soccer': '⚽',
+                            'basketball': '🏀',
+                            'tennis': '🎾',
+                            'football': '🏈',
+                            'baseball': '⚾',
+                            'music': '🎵',
+                            'musical_note': '🎵',
+                            'notes': '🎶',
+                            'guitar': '🎸',
+                            'piano': '🎹',
+                            'trumpet': '🎺',
+                            'celebration': '🎉',
+                            'tada': '🎉',
+                            'confetti_ball': '🎊',
+                            'balloon': '🎈',
+                            'birthday': '🎂',
+                            'time': '⏰',
+                            'clock1': '🕐',
+                            'stopwatch': '⏱️',
+                            'timer': '⏲️',
+                            'phone': '📱',
+                            'iphone': '📱',
+                            'telephone': '📞',
+                            'phone2': '☎️',
+                            'computer': '💻',
+                            'laptop': '💻',
+                            'desktop': '🖥️',
+                            'keyboard': '⌨️',
+                            'mouse2': '🖱️',
+                            'book': '📚',
+                            'books': '📚',
+                            'book2': '📖',
+                            'memo': '📝',
+                            'page': '📄',
+                            'game': '🎮',
+                            'video_game': '🎮',
+                            'joystick': '🕹️',
+                            'dart': '🎯',
+                            'dice': '🎲',
+                            'art': '🎨',
+                            'art': '🎨',
+                            'frame_photo': '🖼️',
+                            'performing_arts': '🎭',
+                            'circus_tent': '🎪',
+                            'nature': '🌳',
+                            'tree': '🌳',
+                            'cherry_blossom': '🌸',
+                            'hibiscus': '🌺',
+                            'sunflower': '🌻',
+                            'rose': '🌹',
+                            'space': '🌙',
+                            'moon': '🌙',
+                            'star': '⭐',
+                            'earth_americas': '🌍',
+                            'earth_africa': '🌎',
+                            'earth_asia': '🌏',
+                            'holiday': '🎄',
+                            'christmas_tree': '🎄',
+                            'jack_o_lantern': '🎃',
+                            'birthday': '🎂',
+                            'gift': '🎁',
+                            'flag': '🏁',
+                            'checkered_flag': '🏁',
+                            'triangular_flag_on_post': '🚩',
+                            'white_flag': '🏳️',
+                            'black_flag': '🏴'
+                        };
+                        
                         // Filter based on API results
                         emojiButtons.forEach(btn => {
                             const emoji = btn.textContent;
-                            const isVisible = apiResults.some(result => 
-                                result === emoji || 
-                                result.toLowerCase().includes(emoji) ||
-                                emoji.includes(result)
-                            );
+                            let isVisible = false;
+                            
+                            // Check if emoji matches any API result directly
+                            if (apiResults.some(result => result === emoji)) {
+                                isVisible = true;
+                            }
+                            // Check if emoji matches mapped emoji from API result
+                            else if (apiResults.some(result => nameToEmoji[result] === emoji)) {
+                                isVisible = true;
+                            }
+                            // Check if API result name contains emoji or vice versa
+                            else if (apiResults.some(result => 
+                                result.toLowerCase().includes(emoji.toLowerCase()) ||
+                                emoji.toLowerCase().includes(result.toLowerCase())
+                            )) {
+                                isVisible = true;
+                            }
+                            
                             btn.style.display = isVisible ? 'block' : 'none';
                         });
                     } else {
