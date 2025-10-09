@@ -346,7 +346,7 @@
                     }
                 }
             } catch (error) {
-                console.log('⚠️ Could not load config from private repo:', error.message);
+                console.log('⚠️ Could not load config from private repo (this is normal):', error.message);
             }
             // No prompt fallback — host can paste the code above
             const tokenStatus = document.getElementById('tokenStatus');
@@ -826,15 +826,49 @@
                 return results;
             }
             
-            // API search function (simplified for now)
+            // API search function with real API calls
             async function searchEmojisAPI(query) {
                 if (!query.trim()) {
                     return null; // Show all emojis
                 }
                 
-                // For now, use local search as primary method
-                // TODO: Implement actual API calls when APIs are more reliable
-                console.log('Using local search for:', query);
+                try {
+                    // Try Emojify API first (free, no auth)
+                    console.log('Trying Emojify API for:', query);
+                    const emojifyResponse = await fetch(`https://emojify.info/api/emoji?search=${encodeURIComponent(query)}`);
+                    
+                    if (emojifyResponse.ok) {
+                        const data = await emojifyResponse.json();
+                        if (data && data.length > 0) {
+                            console.log('✅ Emojify API success:', data.length, 'results');
+                            return data.map(emoji => emoji.character || emoji.emoji || emoji);
+                        }
+                    }
+                } catch (error) {
+                    console.log('Emojify API failed:', error.message);
+                }
+                
+                try {
+                    // Fallback to GitHub Emoji API
+                    console.log('Trying GitHub API for:', query);
+                    const githubResponse = await fetch('https://api.github.com/emojis');
+                    
+                    if (githubResponse.ok) {
+                        const data = await githubResponse.json();
+                        const matchingNames = Object.keys(data)
+                            .filter(name => name.toLowerCase().includes(query.toLowerCase()));
+                        
+                        if (matchingNames.length > 0) {
+                            console.log('✅ GitHub API success:', matchingNames.length, 'results');
+                            return matchingNames;
+                        }
+                    }
+                } catch (error) {
+                    console.log('GitHub API failed:', error.message);
+                }
+                
+                // Final fallback to local search
+                console.log('All APIs failed, using local search for:', query);
                 return searchEmojisLocal(query);
             }
             
@@ -932,9 +966,24 @@
 
         // Initialize
         async function init() {
-            await loadConfig();
-            await loadCurrentMessage();
-            initEmojiPicker();
+            try {
+                await loadConfig();
+            } catch (error) {
+                console.log('Config load error (non-critical):', error);
+            }
+            
+            try {
+                await loadCurrentMessage();
+            } catch (error) {
+                console.log('Message load error (non-critical):', error);
+            }
+            
+            try {
+                initEmojiPicker();
+                console.log('✅ Emoji picker initialized');
+            } catch (error) {
+                console.error('❌ Emoji picker failed to initialize:', error);
+            }
             // Match token input width to the "Use this code" button
             function resizeTokenInput() {
                 const input = document.getElementById('tokenInput');
