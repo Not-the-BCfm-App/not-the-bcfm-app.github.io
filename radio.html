@@ -6,26 +6,88 @@ order: 4
 ---
 
 
-<article>
-    <div class="my-main-content">
-          <div class="my-audio-card">
-            <div class="my-card-content">
-                <h2 class="my-card-title">Fridays at 5pm UK time</h2>
-                <p class="my-card-description">The Bristol Politics Show, live from Bristol UK</p>
-                <audio controls>
-                    <source src="https://uk3.internet-radio.com/proxy/prsc?mp=/live" type="audio/mpeg">
-                    <!-- <metadata url="https://uk3.internet-radio.com/proxy/prsc?mp=/live&type=metadata"></metadata> -->
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-            <div style="margin-top: 1.5em; color: #757575 !important;">
-                <p<h4 class="my-card-description">The show is repeated at 11pm on Fridays and at 11am and 5pm all week.</h4>
-           
-            </div>
-            <!-- <div id="show-title"></div> -->
-        </div>
+<article class="radio-page">
+  <div class="my-main-content">
+    <div class="my-audio-card">
+      <div class="my-card-content">
+        <h2 class="my-card-title">Fridays at 5pm UK time</h2>
+
+        <p class="my-card-description">
+          The Bristol Politics Show, live from Bristol UK
+        </p>
+
+        <audio controls>
+          <source src="https://uk3.internet-radio.com/proxy/prsc?mp=/live" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+
+      <div class="my-card-footer">
+        <h4 class="my-card-description">
+          The show is repeated at 11pm on Fridays and at 11am and 5pm all week.
+        </h4>
+      </div>
     </div>
+  </div>
 </article>
+
+
+<style>
+
+/* Page background */
+.radio-page {
+  background-color: #030102;
+  min-height: 100vh;
+  padding: 3rem 1rem;
+}
+
+/* Center content */
+.my-main-content {
+  display: flex;
+  justify-content: center;
+}
+
+/* Audio card */
+.my-audio-card {
+  background-color: #0b0607;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Card text */
+.my-card-title {
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.my-card-description {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Footer text */
+.my-card-footer {
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
+}
+
+/* Audio player */
+audio {
+  width: 100%;
+  margin-top: 1rem;
+  filter: invert(90%);
+}
+
+/* Mobile spacing */
+@media (max-width: 576px) {
+  .my-audio-card {
+    padding: 1.5rem;
+  }
+}
+</style>
 
 <!-- <script>
     // Create an XMLHTTPRequest object
