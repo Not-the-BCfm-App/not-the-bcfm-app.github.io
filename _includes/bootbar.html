@@ -67,35 +67,66 @@
 
 
 </style> -->
-<nav class="navbar navbar-expand-lg navbar-custom navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">The Bristol Politics Show App</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        {% assign pages = site.pages | sort:"order" %}
-        {% for page in pages %}
-          {% if page.title and page.menu != false %}
-            <li class="nav-item">
-             
-              <a class="nav-link" href="{{ page.url | relative_url }}">{{ page.title }}</a>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-      
-            
-    </div>
-  </nav>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+  <a class="navbar-brand" href="/">The Bristol Politics Show App</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav">
+      {% assign pages = site.pages | sort:"order" %}
+      {% for page in pages %}
+        {% if page.title and page.menu != false %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ page.url | relative_url }}">
+              {{ page.title }}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</nav>
+
 
 <style>
-
+/* Custom dark navbar */
 .navbar-custom {
-  background-color: #030102;
+  background-color: #030102 !important;
 }
 
-  </style>
+/* Brand */
+.navbar-custom .navbar-brand {
+  color: #ffffff;
+}
+
+/* Links */
+.navbar-custom .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link:focus {
+  color: #ffffff;
+}
+
+/* Mobile toggler icon */
+.navbar-custom .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-custom .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
 
 
   
