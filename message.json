@@ -1,6 +1,6 @@
 {
-  "message": "",
-  "type": "info",
-  "show": false,
-  "timestamp": "2025-12-13T12:55:14.252Z"
+  "message": "Show delayed for a few minutes",
+  "type": "error",
+  "show": true,
+  "timestamp": "2025-12-19T17:09:31.619Z"
 }
