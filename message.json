@@ -1,6 +1,6 @@
 {
-  "message": "",
-  "type": "info",
-  "show": false,
-  "timestamp": "2025-12-21T00:13:40.523Z"
+  "message": "We're having a fortnight off. No live show until January 9th",
+  "type": "warning",
+  "show": true,
+  "timestamp": "2025-12-26T17:37:22.175Z"
 }
